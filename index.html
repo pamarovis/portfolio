@@ -245,27 +245,27 @@
     </div>
   </div>
   <div class="gallery-grid reveal">
-    <div class="gallery-item" onclick="openLightbox()">
+    <div class="gallery-item" onclick="openLightbox(this)">
       <img src="foto1.jpg" alt="NT fotografija 1" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
       <div class="gallery-item-overlay"><span class="gallery-item-title">Namas su sodu</span></div>
     </div>
-    <div class="gallery-item" onclick="openLightbox()">
+    <div class="gallery-item" onclick="openLightbox(this)">
       <img src="foto2.jpg" alt="NT fotografija 2" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
       <div class="gallery-item-overlay"><span class="gallery-item-title">Kotedžų kvartalas</span></div>
     </div>
-    <div class="gallery-item" onclick="openLightbox()">
+    <div class="gallery-item" onclick="openLightbox(this)">
       <img src="foto3.jpg" alt="NT fotografija 3" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
       <div class="gallery-item-overlay"><span class="gallery-item-title">Sodybos panorama</span></div>
     </div>
-    <div class="gallery-item" onclick="openLightbox()">
+    <div class="gallery-item" onclick="openLightbox(this)">
       <img src="foto4.jpg" alt="NT fotografija 4" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
       <div class="gallery-item-overlay"><span class="gallery-item-title">Butas mieste</span></div>
     </div>
-    <div class="gallery-item" onclick="openLightbox()">
+    <div class="gallery-item" onclick="openLightbox(this)">
       <img src="foto5.jpg" alt="NT fotografija 5" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
       <div class="gallery-item-overlay"><span class="gallery-item-title">Privati valda</span></div>
     </div>
-    <div class="gallery-item" onclick="openLightbox()">
+    <div class="gallery-item" onclick="openLightbox(this)">
       <img src="foto6.jpg" alt="NT fotografija 6" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
       <div class="gallery-item-overlay"><span class="gallery-item-title">Saulėlydžio šviesa</span></div>
     </div>
@@ -326,20 +326,20 @@
         </span>
       </div>
     </div>
-    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+    <form class="contact-form reveal" action="https://formspree.io/f/mdabjoje" method="POST">
       <div class="form-row">
         <div class="form-field">
           <label>Vardas</label>
-          <input type="text" placeholder="Jūsų vardas" required>
+          <input type="text" name="vardas" placeholder="Jūsų vardas" required>
         </div>
         <div class="form-field">
           <label>El. paštas</label>
-          <input type="email" placeholder="el@pastas.lt" required>
+          <input type="email" name="email" placeholder="el@pastas.lt" required>
         </div>
       </div>
       <div class="form-field">
         <label>Paslauga</label>
-        <select>
+        <select name="paslauga">
           <option value="">Pasirinkite paslaugą</option>
           <option>Oro fotografija</option>
           <option>Oro video</option>
@@ -348,12 +348,14 @@
       </div>
       <div class="form-field">
         <label>Apie objektą</label>
-        <textarea placeholder="Objekto adresas, tipas (namas, butas, sklypas), papildoma informacija..."></textarea>
+        <textarea name="zinute" placeholder="Objekto adresas, tipas (namas, butas, sklypas), papildoma informacija..."></textarea>
       </div>
       <button type="submit" class="submit-btn">
         Siųsti žinutę
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
+      <input type="hidden" name="_subject" value="Naujas užsakymas – Dangaus Kadras">
+      <input type="hidden" name="_language" value="lt">
     </form>
   </div>
 </section>
@@ -367,7 +369,7 @@
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">Uždaryti ✕</button>
-  <div class="gallery-ph ph-1" style="width:80vw; max-width:900px; height:70vh; font-size:1.2rem;">Nuotrauka</div>
+  <img id="lightbox-img" src="" alt="" style="max-width:90vw; max-height:85vh; object-fit:contain; display:block;">
 </div>
 
 <script>
@@ -388,16 +390,18 @@
   }, { threshold: 0.15 });
   reveals.forEach(r => observer.observe(r));
 
-  function openLightbox() { document.getElementById('lightbox').classList.add('open'); }
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    if (img) {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-img').alt = img.alt;
+    }
+    document.getElementById('lightbox').classList.add('open');
+  }
   function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
   document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.submit-btn');
-    btn.textContent = '✓ Išsiųsta! Susisieksiu greitai.';
-    btn.style.background = '#2d7a4f';
-  }
+
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
