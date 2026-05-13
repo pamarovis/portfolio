@@ -356,6 +356,7 @@
       </button>
       <input type="hidden" name="_subject" value="Naujas užsakymas – Dangaus Kadras">
       <input type="hidden" name="_language" value="lt">
+      <p id="form-status" style="display:none; margin-top:0.75rem; font-size:13px; letter-spacing:0.05em;"></p>
     </form>
   </div>
 </section>
@@ -408,6 +409,37 @@
       e.preventDefault();
       document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
     });
+  });
+
+  const contactForm = document.querySelector('.contact-form');
+  const formStatus = document.getElementById('form-status');
+  contactForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Siunčiama...';
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        contactForm.reset();
+        formStatus.style.display = 'block';
+        formStatus.style.color = '#4caf50';
+        formStatus.textContent = 'Žinutė išsiųsta! Susisieksiu su jumis greitai.';
+        btn.textContent = 'Išsiųsta ✓';
+      } else {
+        throw new Error();
+      }
+    } catch {
+      formStatus.style.display = 'block';
+      formStatus.style.color = '#e53935';
+      formStatus.textContent = 'Klaida siunčiant. Bandykite dar kartą arba rašykite tiesiogiai el. paštu.';
+      btn.disabled = false;
+      btn.innerHTML = 'Siųsti žinutę <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    }
   });
 </script>
 </body>
