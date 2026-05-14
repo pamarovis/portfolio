@@ -85,6 +85,14 @@
   .gallery-item:hover .gallery-item-overlay { opacity: 1; }
   .gallery-item-title { color: var(--white); font-size: 13px; letter-spacing: 0.05em; font-weight: 400; }
 
+  .video-section { padding: 6rem 3rem; border-top: 1px solid var(--border); background: var(--light); }
+  .video-section-inner { max-width: 1200px; margin: 0 auto; }
+  .video-section-header { margin-bottom: 3rem; }
+  .video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .video-item { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+  .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  @media (max-width: 768px) { .video-grid { grid-template-columns: 1fr; } }
+
   .services { padding: 6rem 3rem; border-top: 1px solid var(--border); }
   .services-inner { max-width: 1200px; margin: 0 auto; }
   .services-header { text-align: center; margin-bottom: 4rem; }
@@ -170,6 +178,7 @@
   <ul class="nav-links">
     <li><a href="#apie">Apie</a></li>
     <li><a href="#galerija">Galerija</a></li>
+    <li><a href="#video">Video</a></li>
     <li><a href="#paslaugos">Paslaugos</a></li>
     <li><a href="#kontaktai">Kontaktai</a></li>
   </ul>
@@ -263,6 +272,29 @@
     </div>
     <div class="gallery-item" onclick="openLightbox(this)">
       <img src="foto6.jpg" alt="NT fotografija 6" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+    </div>
+  </div>
+</section>
+
+<section class="video-section" id="video">
+  <div class="video-section-inner">
+    <div class="video-section-header reveal">
+      <p class="section-label">Darbai</p>
+      <h2 class="section-title">Video</h2>
+    </div>
+    <div class="video-grid reveal">
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/eNBmfDQcdns" title="Video 1" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/FXkc93YkpyU" title="Video 2" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/wU6g1nL_RpY" title="Video 3" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/bXZIkGy7W78" title="Video 4" allowfullscreen loading="lazy"></iframe>
+      </div>
     </div>
   </div>
 </section>
