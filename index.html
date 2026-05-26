@@ -198,6 +198,8 @@
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  picture { display: contents; }
+
   .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 101; position: relative; }
   .hamburger span { width: 22px; height: 1.5px; background: var(--dark); display: block; transition: all 0.3s ease; }
   .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
@@ -267,14 +269,20 @@
     </a>
   </div>
   <div class="hero-visual">
-    <img src="hero.jpg" alt="NT oro fotografija" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" fetchpriority="high">
+    <picture>
+      <source srcset="hero.webp" type="image/webp">
+      <img src="hero.jpg" alt="NT oro fotografija" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" fetchpriority="high">
+    </picture>
     <div class="hero-counter">Dangaus Kadras © <span id="year2"></span></div>
   </div>
 </section>
 
 <section class="about" id="apie">
   <div class="about-visual">
-    <img src="apie.jpg" alt="Oro fotografija" style="width:100%;height:100%;object-fit:cover;">
+    <picture>
+      <source srcset="apie.webp" type="image/webp">
+      <img src="apie.jpg" alt="Oro fotografija" style="width:100%;height:100%;object-fit:cover;">
+    </picture>
     <span class="about-label">Lietuva</span>
   </div>
   <div class="about-content reveal">
@@ -320,22 +328,22 @@
   </div>
   <div class="gallery-grid reveal">
     <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="foto1.jpg" alt="Namas iš oro – NT oro fotografija Lietuvoje" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+      <picture><source srcset="foto1.webp" type="image/webp"><img src="foto1.jpg" alt="Namas iš oro – NT oro fotografija Lietuvoje" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
     </div>
     <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="foto2.jpg" alt="NT sklypas iš drono – aerofotografija" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+      <picture><source srcset="foto2.webp" type="image/webp"><img src="foto2.jpg" alt="NT sklypas iš drono – aerofotografija" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
     </div>
     <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="foto3.jpg" alt="Pastatas iš oro – NT oro fotografija" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+      <picture><source srcset="foto3.webp" type="image/webp"><img src="foto3.jpg" alt="Pastatas iš oro – NT oro fotografija" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
     </div>
     <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="foto4.jpg" alt="Nekilnojamojo turto oro nuotrauka – dronas" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+      <picture><source srcset="foto4.webp" type="image/webp"><img src="foto4.jpg" alt="Nekilnojamojo turto oro nuotrauka – dronas" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
     </div>
     <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="foto5.jpg" alt="Dronų fotografija – NT objektas Lietuvoje" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+      <picture><source srcset="foto5.webp" type="image/webp"><img src="foto5.jpg" alt="Dronų fotografija – NT objektas Lietuvoje" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
     </div>
     <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="foto6.jpg" alt="Kotedžo oro fotografija – NT Lietuva" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+      <picture><source srcset="foto6.webp" type="image/webp"><img src="foto6.jpg" alt="Kotedžo oro fotografija – NT Lietuva" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
     </div>
   </div>
 </section>
@@ -489,7 +497,7 @@
   function openLightbox(el) {
     const img = el.querySelector('img');
     if (img) {
-      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-img').src = img.currentSrc || img.src;
       document.getElementById('lightbox-img').alt = img.alt;
     }
     document.getElementById('lightbox').classList.add('open');
