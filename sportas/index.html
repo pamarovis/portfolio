@@ -451,17 +451,8 @@ body{
 .logout-btn:active{opacity:0.7;}
 /* === DESKTOP === */
 @media(min-width:600px){
-  html,body{background:#0a0a0a;}
-  .app-shell{
-    max-width:520px;
-    margin:0 auto;
-    min-height:100vh;
-    position:relative;
-    /* transform creates a containing block for position:fixed children */
-    transform:translateZ(0);
-    box-shadow:0 0 120px rgba(0,0,0,0.9),inset 0 0 0 1px rgba(255,255,255,0.04);
-    background:var(--bg);
-  }
+  .content{padding:20px 40px 0;}
+  .top-header{padding:12px 40px;}
 }
 /* === ZONE2 ENHANCED === */
 .act-badge{display:inline-flex;align-items:center;gap:5px;background:var(--bg4);border:1px solid var(--border);border-radius:100px;padding:3px 10px;font-size:12px;font-weight:600;margin-bottom:8px;}
