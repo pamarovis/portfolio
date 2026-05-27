@@ -8,6 +8,8 @@
 <meta name="apple-mobile-web-app-title" content="Dovydas">
 <meta name="theme-color" content="#080808">
 <title>Dovydas — 12 Savaičių</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -431,9 +433,36 @@ body{
 
 .confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;animation:cf 1.5s ease-in forwards;z-index:9999;pointer-events:none}
 @keyframes cf{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+/* === AUTH === */
+#auth-overlay{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px;}
+.auth-wrap{width:100%;max-width:340px;display:flex;flex-direction:column;gap:14px;}
+.auth-logo{width:52px;height:52px;background:var(--accent);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#080808;margin-bottom:4px;}
+.auth-title{font-size:26px;font-weight:800;letter-spacing:-0.5px;}
+.auth-sub{font-size:14px;color:var(--text2);margin-bottom:4px;}
+.auth-input{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:15px 16px;font-size:16px;color:var(--text);outline:none;font-family:inherit;transition:border 0.15s;width:100%;}
+.auth-input:focus{border-color:var(--accent);}
+.auth-btn-main{background:var(--accent);color:#080808;border:none;border-radius:var(--r);padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s;width:100%;}
+.auth-btn-main:active,.auth-btn-main:disabled{opacity:0.7;}
+#auth-err{font-size:13px;color:var(--red);min-height:16px;text-align:center;}
+.sync-bar{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--r);padding:12px 16px;margin-bottom:4px;}
+.sync-info{font-size:13px;color:var(--text2);line-height:1.5;}
+.sync-info strong{color:var(--text);font-size:12px;}
+.logout-btn{background:transparent;border:1px solid var(--border2);border-radius:8px;padding:7px 14px;font-size:13px;color:var(--text2);cursor:pointer;font-family:inherit;white-space:nowrap;}
+.logout-btn:active{opacity:0.7;}
 </style>
 </head>
 <body>
+<div id="auth-overlay">
+  <div class="auth-wrap">
+    <div class="auth-logo">D</div>
+    <div class="auth-title">Dovydas</div>
+    <div class="auth-sub">12 Savaičių Planas</div>
+    <input class="auth-input" type="email" id="auth-email" placeholder="El. paštas" autocomplete="username" inputmode="email">
+    <input class="auth-input" type="password" id="auth-pass" placeholder="Slaptažodis" autocomplete="current-password">
+    <button class="auth-btn-main" onclick="doLogin()">Prisijungti</button>
+    <div id="auth-err"></div>
+  </div>
+</div>
 <div class="status-bar"></div>
 
 <div class="top-header">
@@ -790,6 +819,10 @@ body{
 <div id="more" class="section">
   <div class="page-title">Daugiau</div>
   <div class="page-sub">Zone 2, Progresija, Koja</div>
+  <div class="sync-bar">
+    <div class="sync-info">Prisijungta:<br><strong id="sync-email">—</strong></div>
+    <button class="logout-btn" onclick="doLogout()">Atsijungti</button>
+  </div>
 
   <div class="section-label">Zone 2 ėjimas 🐕</div>
   <div class="stats-row-3">
@@ -833,7 +866,7 @@ body{
   <div class="section-label">Kaip naudoti kaip App</div>
   <div class="card"><div class="card-body" style="font-size:14px;color:var(--text2);line-height:1.7">
     <strong style="color:var(--text)">iPhone:</strong> Safari → Share → „Add to Home Screen" → Taip gausit ikoną kaip tikra app, atsidarys fullscreen.<br><br>
-    <strong style="color:var(--text)">Svarbu:</strong> Visada atsidaryk tik iš tos ikonos — duomenys saugomi toje naršyklėje.
+    <strong style="color:var(--text)">Svarbu:</strong> Duomenys automatiškai sinchronizuojami į debesį — galima naudoti iš bet kurio įrenginio.
   </div></div>
 </div>
 
@@ -841,8 +874,50 @@ body{
 
 <script>
 const SK='dov_v4';
+const SB=window.supabase.createClient(
+  'https://eviojhwtgbjrjqzkzrqo.supabase.co',
+  'sb_publishable_tegI7VDHaDiH2k08H3s9jQ_N4nuwHxx'
+);
+let _sbUser=null,_syncT=null;
 function ld(){try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{};}}
-function sd(d){localStorage.setItem(SK,JSON.stringify(d));}
+function sd(d){
+  localStorage.setItem(SK,JSON.stringify(d));
+  if(_sbUser){clearTimeout(_syncT);_syncT=setTimeout(()=>_push(d),1500);}
+}
+async function _push(d){
+  if(!_sbUser)return;
+  await SB.from('user_data').upsert({user_id:_sbUser.id,data:d,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+}
+async function _pull(){
+  if(!_sbUser)return;
+  const{data}=await SB.from('user_data').select('data').eq('user_id',_sbUser.id).maybeSingle();
+  if(data?.data&&Object.keys(data.data).length>0)localStorage.setItem(SK,JSON.stringify(data.data));
+}
+async function doLogin(){
+  const em=document.getElementById('auth-email').value.trim();
+  const pw=document.getElementById('auth-pass').value;
+  const er=document.getElementById('auth-err');
+  const bt=document.querySelector('.auth-btn-main');
+  if(!em||!pw){er.textContent='Įvesk el. paštą ir slaptažodį';return;}
+  bt.textContent='Jungiamasi…';bt.disabled=true;
+  const{error}=await SB.auth.signInWithPassword({email:em,password:pw});
+  if(error){er.textContent='❌ '+error.message;bt.textContent='Prisijungti';bt.disabled=false;}
+}
+async function doLogout(){if(confirm('Atsijungti?')){await SB.auth.signOut();location.reload();}}
+SB.auth.onAuthStateChange(async(ev,session)=>{
+  if(session?.user){
+    _sbUser=session.user;
+    document.getElementById('auth-overlay').style.display='none';
+    const el=document.getElementById('sync-email');
+    if(el)el.textContent=_sbUser.email;
+    await _pull();
+    initHeader();initTodayBanner();initWeekStrip();initProgress();
+  } else {
+    _sbUser=null;
+    const o=document.getElementById('auth-overlay');
+    if(o){o.style.display='flex';}
+  }
+});
 function todayKey(){return new Date().toISOString().split('T')[0];}
 const START=new Date('2026-05-25');
 function getCW(){return Math.min(Math.max(Math.floor((new Date()-START)/(864e5*7))+1,1),12);}
