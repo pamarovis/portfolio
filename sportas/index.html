@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dovydas">
+<meta name="theme-color" content="#080808">
+<title>Dovydas — 12 Savaičių</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080808;--bg2:#111;--bg3:#191919;--bg4:#222;--bg5:#2a2a2a;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:#f2f0ec;--text2:#8c8884;--text3:#4a4744;
+  --accent:#c8f060;--accent2:#a8d840;
+  --accent-dim:rgba(200,240,96,0.12);--accent-glow:rgba(200,240,96,0.08);
+  --red:#ff4f4f;--red-dim:rgba(255,79,79,0.12);
+  --amber:#f5a623;--amber-dim:rgba(245,166,35,0.12);
+  --blue:#5bb8f5;--blue-dim:rgba(91,184,245,0.12);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.12);
+  --r:10px;--r2:14px;--r3:18px;
+  --nav-h:82px;
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-size:15px;line-height:1.5;
+  min-height:100%;min-height:-webkit-fill-available;
+  overflow-x:hidden;
+  padding-top:var(--sat);
+  padding-bottom:calc(var(--nav-h) + var(--sab));
+  padding-left:var(--sal);
+  padding-right:var(--sar);
+}
+/* ===== STATUS BAR AREA ===== */
+.status-bar{
+  height:var(--sat);background:rgba(8,8,8,0.95);
+  position:fixed;top:0;left:0;right:0;z-index:300;
+}
+/* ===== TOP HEADER ===== */
+.top-header{
+  position:sticky;top:var(--sat);z-index:200;
+  background:rgba(8,8,8,0.9);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.app-logo{display:flex;align-items:center;gap:10px}
+.app-logo-mark{
+  width:32px;height:32px;background:var(--accent);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:800;color:#080808;
+  font-family:'Inter',sans-serif;
+}
+.app-logo-text{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.3px}
+.app-logo-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.header-pill{
+  background:var(--accent-dim);border:1px solid rgba(200,240,96,0.2);
+  border-radius:100px;padding:6px 12px;
+  font-size:12px;color:var(--accent);font-weight:600;
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:200;
+  background:rgba(10,10,10,0.95);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  padding:8px 4px calc(8px + var(--sab));
+  display:flex;align-items:stretch;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:6px 4px;gap:4px;cursor:pointer;
+  border:none;background:transparent;
+  border-radius:var(--r);transition:all 0.15s;
+  min-height:56px;justify-content:center;
+}
+.nav-item.active .nav-icon{color:var(--accent)}
+.nav-item.active .nav-label{color:var(--accent)}
+.nav-icon{font-size:22px;line-height:1;transition:transform 0.15s}
+.nav-label{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:0.01em;transition:color 0.15s}
+.nav-item:active .nav-icon{transform:scale(0.88)}
+
+/* ===== CONTENT ===== */
+.content{padding:16px 16px 0;}
+.section{display:none}
+.section.active{display:block;animation:slideUp 0.25s cubic-bezier(0.4,0,0.2,1)}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== PAGE TITLE ===== */
+.page-title{
+  font-size:26px;font-weight:800;color:var(--text);
+  letter-spacing:-0.5px;margin-bottom:4px;
+}
+.page-title span{color:var(--accent)}
+.page-sub{font-size:13px;color:var(--text3);margin-bottom:20px;font-weight:500}
+
+/* ===== TODAY BANNER ===== */
+.today-card{
+  background:linear-gradient(135deg,rgba(200,240,96,0.1),rgba(200,240,96,0.03));
+  border:1px solid rgba(200,240,96,0.25);
+  border-radius:var(--r3);padding:18px;margin-bottom:16px;
+}
+.today-eyebrow{font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+.today-title{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.4px;line-height:1.2}
+.today-date{font-size:13px;color:var(--text2);margin-top:4px;font-weight:500}
+.today-actions{display:flex;gap:8px;margin-top:14px}
+.btn-primary{
+  flex:1;background:var(--accent);color:#080808;border:none;
+  border-radius:var(--r2);padding:13px 16px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  font-family:'Inter',sans-serif;letter-spacing:-0.2px;
+  transition:all 0.15s;
+}
+.btn-primary:active{transform:scale(0.97);background:var(--accent2)}
+.btn-secondary{
+  background:var(--bg3);color:var(--text2);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:13px 16px;
+  font-size:14px;font-weight:600;cursor:pointer;
+  font-family:'Inter',sans-serif;
+  transition:all 0.15s;white-space:nowrap;
+}
+.btn-secondary:active{transform:scale(0.97)}
+
+/* ===== STAT CARDS ===== */
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stats-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.stat-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:14px;
+}
+.stat-card.accent{
+  background:var(--accent-dim);border-color:rgba(200,240,96,0.2);
+}
+.stat-lbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px}
+.stat-val{font-size:28px;font-weight:800;color:var(--accent);letter-spacing:-0.5px;line-height:1}
+.stat-sub{font-size:11px;color:var(--text2);margin-top:3px;font-weight:500}
+.stat-val-sm{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-0.3px;line-height:1}
+
+/* ===== PROGRESS BAR ===== */
+.progress-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px;margin-bottom:16px}
+.prog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.prog-title{font-size:13px;font-weight:700;color:var(--text)}
+.prog-value{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);font-weight:500}
+.prog-track{height:8px;background:var(--bg5);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#88b820,var(--accent));border-radius:4px;width:0%;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
+.prog-labels{display:flex;justify-content:space-between;margin-top:7px}
+.prog-labels span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)}
+
+/* ===== WEEK STRIP ===== */
+.week-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:16px}
+.wd{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:8px 4px;text-align:center;
+}
+.wd.today-wd{border-color:var(--accent);background:var(--accent-dim)}
+.wd.sport-wd{border-color:rgba(255,255,255,0.1)}
+.wd-name{font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.wd-icon{font-size:14px;line-height:1;margin-bottom:3px}
+.wd-dot{width:4px;height:4px;border-radius:50%;margin:0 auto}
+
+/* ===== SECTION LABEL ===== */
+.section-label{
+  font-size:11px;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.1em;
+  margin:20px 0 10px;display:flex;align-items:center;gap:8px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r3);overflow:hidden;margin-bottom:10px;
+}
+.card-header{
+  padding:14px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-title{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.2px}
+.card-sub{font-size:12px;color:var(--text2);margin-top:2px;font-weight:500}
+.card-body{padding:14px 16px}
+.badge{padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:0.03em}
+.badge-upper{background:var(--blue-dim);color:var(--blue)}
+.badge-lower{background:var(--amber-dim);color:var(--amber)}
+
+/* ===== EXERCISE LIST ===== */
+.ex-section{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin:12px 0 6px;display:flex;align-items:center;gap:6px}
+.ex-section::after{content:'';flex:1;height:1px;background:var(--border)}
+.ex-list{list-style:none}
+.ex-item{
+  display:flex;align-items:flex-start;padding:10px 0;
+  border-bottom:1px solid var(--border);gap:12px;
+  transition:opacity 0.2s;
+}
+.ex-item:last-child{border-bottom:none}
+.ex-item.ex-done{opacity:0.35}
+.ex-item.ex-done .ex-name,.ex-item.ex-done .ex-params{text-decoration:line-through}
+.ex-checkbox{width:20px;height:20px;min-width:20px;accent-color:var(--accent);cursor:pointer;margin-top:1px}
+.ex-name{font-size:14px;color:var(--text);flex:1;font-weight:500;line-height:1.4}
+.ex-name small{display:block;font-size:11px;color:var(--text3);margin-top:2px;font-weight:400}
+.ex-params{font-size:12px;color:var(--text2);text-align:right;white-space:nowrap;font-family:'JetBrains Mono',monospace;flex-shrink:0;padding-top:2px}
+.warmup-block{
+  background:var(--bg3);border-left:3px solid var(--accent);
+  border-radius:0 var(--r) var(--r) 0;
+  padding:10px 12px;margin-bottom:12px;
+  font-size:13px;color:var(--text2);line-height:1.6;
+}
+.warmup-lbl{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px}
+.cooldown{background:var(--bg3);border-radius:var(--r);padding:10px 12px;font-size:12px;color:var(--text3);margin-top:10px;line-height:1.6}
+
+/* ===== COMPLETION ===== */
+.day-complete-btn-wrap{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.day-progress-mini{font-size:13px;color:var(--text3);text-align:center;padding:6px 0;font-weight:500}
+.day-all-done{display:flex;flex-direction:column;gap:8px}
+.day-all-msg{font-size:14px;color:var(--accent);font-weight:700;text-align:center}
+.day-log-btn{
+  width:100%;padding:15px;background:var(--accent);color:#080808;
+  border:none;border-radius:var(--r2);cursor:pointer;
+  font-size:15px;font-weight:800;font-family:'Inter',sans-serif;
+  transition:all 0.15s;letter-spacing:-0.2px;
+}
+.day-log-btn:active{transform:scale(0.98);background:var(--accent2)}
+.day-logged{
+  font-size:13px;color:var(--accent);font-weight:700;text-align:center;
+  padding:12px;background:var(--accent-dim);border-radius:var(--r2);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.reset-day-btn{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;display:block;text-align:center;margin-top:8px;width:100%;padding:4px}
+
+/* ===== PHASE SELECTOR ===== */
+.phase-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:16px}
+.phase-scroll::-webkit-scrollbar{display:none}
+.phase-chip{
+  flex-shrink:0;padding:9px 16px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:100px;font-size:13px;font-weight:600;color:var(--text3);
+  cursor:pointer;transition:all 0.15s;white-space:nowrap;
+}
+.phase-chip.active{background:var(--accent-dim);border-color:rgba(200,240,96,0.3);color:var(--accent)}
+.phase-chip:active{transform:scale(0.96)}
+
+/* ===== LOC TOGGLE ===== */
+.loc-toggle{
+  display:flex;background:var(--bg3);border:1px solid var(--border);
+  border-radius:100px;padding:3px;margin-bottom:16px;width:fit-content;
+}
+.loc-btn{
+  padding:8px 18px;font-size:13px;font-weight:600;
+  background:transparent;border:none;color:var(--text3);
+  cursor:pointer;border-radius:100px;transition:all 0.15s;
+  font-family:'Inter',sans-serif;
+}
+.loc-btn.active{background:var(--accent);color:#080808}
+.loc-btn:active{transform:scale(0.96)}
+.loc-content{display:none}.loc-content.active{display:block}
+.home-note{
+  background:rgba(200,240,96,0.05);border:1px dashed rgba(200,240,96,0.2);
+  border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--text2);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.phase-content{display:none}
+
+/* ===== ALERTS ===== */
+.alert{border-radius:var(--r2);padding:12px 16px;font-size:13px;margin-bottom:12px;border-left:3px solid;line-height:1.6}
+.alert-green{background:rgba(200,240,96,0.06);border-color:var(--accent);color:rgba(200,240,96,0.85)}
+.alert-amber{background:var(--amber-dim);border-color:var(--amber);color:var(--amber)}
+.alert-red{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.alert-blue{background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
+
+/* ===== MEAL CARDS ===== */
+.meal-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:10px}
+.meal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}
+.meal-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.meal-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);text-align:right;line-height:1.5}
+.meal-body{padding:12px 16px}
+.meal-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);gap:8px;font-size:14px}
+.meal-row:last-child{border-bottom:none}
+.meal-row-name{color:var(--text);flex:1;font-weight:500;line-height:1.4}
+.meal-row-name small{display:block;font-size:11px;color:var(--text3);margin-top:2px;font-weight:400}
+.meal-row-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);text-align:right;flex-shrink:0}
+
+/* ===== MACRO BARS ===== */
+.macro-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.macro-lbl{font-size:12px;color:var(--text2);width:100px;flex-shrink:0;font-weight:600}
+.macro-bar{flex:1;height:5px;background:var(--bg5);border-radius:3px;overflow:hidden}
+.macro-fill{height:100%;border-radius:3px}
+.macro-val{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text2);width:75px;text-align:right}
+
+/* ===== SUPPLEMENTS ===== */
+.supp-list{display:flex;flex-direction:column;gap:8px}
+.supp-item{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);
+  padding:14px 16px;display:flex;align-items:center;gap:14px;
+}
+.supp-icon-wrap{width:40px;height:40px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.supp-name{font-size:14px;font-weight:700;color:var(--text)}
+.supp-dose{font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.supp-time{font-size:11px;color:var(--accent);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:0.06em}
+
+/* ===== SLEEP STEPS ===== */
+.sleep-list{display:flex;flex-direction:column;gap:6px}
+.sleep-item{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);
+  padding:14px 16px;display:flex;align-items:center;gap:14px;
+}
+.sleep-time{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);font-weight:500;min-width:52px}
+.sleep-icon{font-size:20px;flex-shrink:0}
+.sleep-action{font-size:14px;font-weight:600;color:var(--text)}
+.sleep-action small{display:block;font-size:12px;color:var(--text3);font-weight:400;margin-top:2px;line-height:1.4}
+
+/* ===== TABLE ===== */
+.table-wrap{border-radius:var(--r2);border:1px solid var(--border);overflow:hidden;margin-bottom:16px}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{text-align:left;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.data-table td{padding:11px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr.dr td{color:var(--text2)}
+.fbadge{display:inline-block;padding:3px 8px;border-radius:100px;font-size:10px;font-weight:700}
+.fb-green{background:var(--accent-dim);color:var(--accent)}
+.fb-blue{background:var(--blue-dim);color:var(--blue)}
+.fb-purple{background:var(--purple-dim);color:var(--purple)}
+.fb-gray{background:var(--bg5);color:var(--text2)}
+
+/* ===== TRACKER ===== */
+.week-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);
+  padding:12px 16px;margin-bottom:12px;
+}
+.week-nav-btn{
+  width:36px;height:36px;background:var(--bg4);border:1px solid var(--border);
+  border-radius:var(--r);color:var(--text2);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all 0.15s;
+  border:none;
+}
+.week-nav-btn:active{transform:scale(0.92)}
+.week-nav-btn:disabled{opacity:0.3;cursor:default}
+.week-nav-center{text-align:center}
+.week-num{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.3px}
+.week-phase{font-size:12px;font-weight:600;margin-top:2px}
+
+.tr-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:12px}
+.tr-day{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:8px 4px;text-align:center;min-height:100px;
+  display:flex;flex-direction:column;
+}
+.tr-day.today-d{border-color:var(--accent);background:var(--accent-glow)}
+.tr-day.done-d{border-color:rgba(200,240,96,0.3);background:rgba(200,240,96,0.04)}
+.tr-date{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);margin-bottom:2px}
+.tr-dname{font-size:10px;font-weight:700;margin-bottom:4px}
+.today-d .tr-dname{color:var(--accent)}
+.tr-act{font-size:10px;color:var(--text2);line-height:1.3;flex:1;font-weight:500}
+.tr-done-badge{font-size:9px;font-weight:700;background:var(--accent-dim);color:var(--accent);border-radius:4px;padding:2px 4px;display:inline-block;margin-bottom:2px}
+.tr-loc{font-size:12px}
+.tr-undo{font-size:9px;color:var(--text3);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;margin-top:2px;padding:2px}
+.tr-walk{font-size:16px;margin-top:4px}
+.tr-mark-area{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+.tr-loc-btns{display:flex;gap:3px}
+.tr-loc-btn{flex:1;padding:4px;font-size:12px;background:var(--bg4);border:1px solid var(--border);border-radius:5px;cursor:pointer;text-align:center;transition:all 0.15s}
+.tr-loc-btn.sel{background:var(--accent-dim);border-color:rgba(200,240,96,0.3)}
+.tr-note{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:5px;padding:3px 5px;font-size:10px;color:var(--text);font-family:'Inter',sans-serif;outline:none}
+.tr-mark-btn{width:100%;padding:5px;font-size:10px;font-weight:700;background:var(--accent);color:#080808;border:none;border-radius:5px;cursor:pointer;font-family:'Inter',sans-serif}
+
+.tr-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.tr-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 8px;text-align:center}
+.tr-stat-num{font-size:24px;font-weight:800;color:var(--accent);letter-spacing:-0.3px;line-height:1}
+.tr-stat-lbl{font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-top:3px}
+
+.weight-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r3);padding:16px;margin-top:4px}
+.ws-title{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.3px;margin-bottom:2px}
+.ws-sub{font-size:12px;color:var(--text3);margin-bottom:14px;font-weight:500}
+.wl-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.wl-row:last-child{border-bottom:none}
+.wl-row.cur{background:rgba(200,240,96,0.04);border-radius:var(--r);padding:8px 10px;margin:2px -10px}
+.wl-wk{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);min-width:38px;font-weight:500}
+.wl-dt{font-size:12px;color:var(--text2);min-width:60px}
+.wl-ph{font-size:11px;color:var(--text3);flex:1}
+.wl-rec{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700}
+.wl-edit{background:none;border:none;cursor:pointer;font-size:14px;color:var(--text3);padding:4px}
+.wl-future{font-size:12px;color:var(--text3);font-style:italic}
+.wl-inp-wrap{display:flex;gap:5px;align-items:center}
+.wl-inp{width:64px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r);padding:6px 8px;font-size:13px;color:var(--text);font-family:'JetBrains Mono',monospace;outline:none;text-align:center}
+.wl-inp:focus{border-color:var(--accent)}
+.wl-save{padding:6px 10px;font-size:12px;font-weight:700;background:var(--accent);color:#080808;border:none;border-radius:var(--r);cursor:pointer;white-space:nowrap}
+.chart-wrap{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.chart-lbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+
+/* ===== INJURY ===== */
+.inj-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:8px}
+.inj-row:last-child{border-bottom:none}
+.inj-name{font-size:14px;color:var(--text);font-weight:500;flex:1}
+.care-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:8px}
+.care-row:last-child{border-bottom:none}
+.care-name{font-size:14px;color:var(--text);font-weight:500;flex:1}
+.care-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2)}
+
+/* ===== ZONE2 SESSION CARDS ===== */
+.z2-session-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.z2-session-card.best{border-color:rgba(200,240,96,0.3);background:rgba(200,240,96,0.04)}
+.z2-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);min-width:60px;font-weight:500}
+.z2-metrics{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.z2-metric{text-align:center}
+.z2-metric-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--text)}
+.z2-metric-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-top:1px}
+.z2-del{background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:4px}
+.z2-badge{font-size:9px;font-weight:700;background:var(--accent-dim);color:var(--accent);border-radius:4px;padding:2px 6px;display:block;text-align:center;margin-top:4px}
+
+/* CHART GRID LINES */
+.chart-grid{stroke:rgba(255,255,255,0.04);stroke-width:1}
+.chart-label{fill:#4a4744;font-size:8px;font-family:'JetBrains Mono',monospace}
+.chart-line{stroke:#c8f060;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.chart-dot{fill:#c8f060}
+.chart-dot-val{fill:#c8f060;font-size:8px;font-family:'JetBrains Mono',monospace;text-anchor:middle}
+.chart-bar{fill:rgba(200,240,96,0.6);rx:3}
+.chart-target{stroke:rgba(200,240,96,0.2);stroke-width:1;stroke-dasharray:4,3}
+
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;animation:cf 1.5s ease-in forwards;z-index:9999;pointer-events:none}
+@keyframes cf{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="status-bar"></div>
+
+<div class="top-header">
+  <div class="app-logo">
+    <div class="app-logo-mark">D</div>
+    <div>
+      <div class="app-logo-text">Dovydas</div>
+      <div class="app-logo-sub">12 Savaičių Planas</div>
+    </div>
+  </div>
+  <div class="header-pill" id="header-pill">Sav. 1/12</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showSec('dash',this)">
+    <div class="nav-icon">🏠</div><div class="nav-label">Šiandien</div>
+  </button>
+  <button class="nav-item" onclick="showSec('workouts',this);setTimeout(initCB,60)">
+    <div class="nav-icon">💪</div><div class="nav-label">Treniruotės</div>
+  </button>
+  <button class="nav-item" onclick="showSec('nutrition',this)">
+    <div class="nav-icon">🥗</div><div class="nav-label">Mityba</div>
+  </button>
+  <button class="nav-item" onclick="showSec('supps',this)">
+    <div class="nav-icon">💊</div><div class="nav-label">Papildai</div>
+  </button>
+  <button class="nav-item" onclick="showSec('zone2',this);initZone2()">
+    <div class="nav-icon">🐕</div><div class="nav-label">Zone 2</div>
+  </button>
+  <button class="nav-item" onclick="showSec('tracker',this);initTracker()">
+    <div class="nav-icon">📋</div><div class="nav-label">Žurnalas</div>
+  </button>
+  <button class="nav-item" onclick="showSec('more',this)">
+    <div class="nav-icon">⚙️</div><div class="nav-label">Daugiau</div>
+  </button>
+</nav>
+
+<div class="content">
+
+<!-- ŠIANDIEN -->
+<div id="dash" class="section active">
+  <div id="today-banner-wrap"></div>
+  <div class="stats-row">
+    <div class="stat-card accent"><div class="stat-lbl">Kūno svoris</div><div class="stat-val">87 kg</div><div class="stat-sub">Tikslas: 79 kg</div></div>
+    <div class="stat-card"><div class="stat-lbl">Programa</div><div class="stat-val" id="dash-week">1/12</div><div class="stat-sub" id="dash-phase">Pamatas</div></div>
+  </div>
+  <div class="progress-card">
+    <div class="prog-header"><span class="prog-title">Svorio metimas 87kg → 79kg</span><span class="prog-value" id="prog-val">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="pbar"></div></div>
+    <div class="prog-labels"><span>87 kg</span><span>83 kg</span><span>79 kg</span></div>
+  </div>
+
+  <div class="section-label">Savaitės planas</div>
+  <div class="week-strip" id="week-strip"></div>
+
+  <div class="section-label">Dienos schema</div>
+  <div class="sleep-list">
+    <div class="sleep-item"><div class="sleep-time">06:30</div><div class="sleep-icon">🐕</div><div><div class="sleep-action">Ėjimas Zone 2<small>2km · Polar diržas · HR 120–131 bpm</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">07:00</div><div class="sleep-icon">🍳</div><div><div class="sleep-action">Pusryčiai<small>2 kiaušiniai + 150g graikiškas jogurtas</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">07:30</div><div class="sleep-icon">💼</div><div><div class="sleep-action">Darbas</div></div></div>
+    <div class="sleep-item"><div class="sleep-time">12:30</div><div class="sleep-icon">🥗</div><div><div class="sleep-action">Pietūs<small>Lidl salotos 270g · pusė padažo</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">15:00</div><div class="sleep-icon">🥤</div><div><div class="sleep-action">MyProtein kokteilis<small>30g + vanduo · 115 kcal · 22g baltymų</small></div></div></div>
+    <div class="sleep-item" id="evening-act"><div class="sleep-time">18:30</div><div class="sleep-icon">🏃</div><div><div class="sleep-action" id="evening-title">Vakarinis aktyvumas<small>Pagal savaitės dieną</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">19:00</div><div class="sleep-icon">🍽️</div><div><div class="sleep-action">Vakarienė<small>~700 kcal · vienas iš 5 patiekalų</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">21:30</div><div class="sleep-icon">🧘</div><div><div class="sleep-action">Tempimas + oats<small>5 min tempimas + overnight oats paruošimas</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">23:00</div><div class="sleep-icon">🌙</div><div><div class="sleep-action">Miegot ← SVARBU<small>Magnis bisglicinatas prieš miegą</small></div></div></div>
+  </div>
+</div>
+
+<!-- TRENIRUOTES -->
+<div id="workouts" class="section">
+  <div class="page-title">Treniruotės</div>
+  <div class="page-sub">Ant. — Jėgos A · Penkt. — Jėgos B</div>
+
+  <div class="phase-scroll">
+    <button class="phase-chip active" onclick="showPhase('p1',this)">1–3 sav. Pamatas</button>
+    <button class="phase-chip" onclick="showPhase('p2',this)">5–7 sav. Stiprėjimas</button>
+    <button class="phase-chip" onclick="showPhase('p3',this)">9–11 sav. Pikas</button>
+    <button class="phase-chip" onclick="showPhase('pd',this)">Iškrovimas</button>
+  </div>
+
+  <div id="p1" class="phase-content" style="display:block">
+    <div class="alert alert-green" style="font-size:13px">Pamatas — forma svarbiau už svorį. Poilsis: 60–90 sek.</div>
+    <div class="loc-toggle">
+      <button class="loc-btn active" onclick="showLoc('p1','gym',this)">🏋️ Treniruokliai</button>
+      <button class="loc-btn" onclick="showLoc('p1','home',this)">🏠 Namai</button>
+    </div>
+    <div id="p1-gym" class="loc-content active">
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Antradienis 💪</div><div class="card-sub">Jėgos A — viršutinė (push + pull + pečiai)</div></div><span class="badge badge-upper">Upper</span></div>
+        <div class="card-body">
+          <div class="warmup-block"><div class="warmup-lbl">Pašildymas 8 min</div>Rankų ratai ×20 · Krūtinės tempimas ×10 · Mentė atgal ×10 · Pečių sukimai ×10</div>
+          <div class="ex-section">Krūtinė & Tricepsai</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">KF801 Krūtinės spaudimas<small>Chest press machine</small></span><span class="ex-params">3×10–12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">KF808 Krūtinės sraigė<small>Pec deck fly</small></span><span class="ex-params">3×12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">KF811 Tricepsų spaudimas<small>Triceps press</small></span><span class="ex-params">3×12<br>60s</span></li>
+          </ul>
+          <div class="ex-section">Nugara & Bicepsai</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">KF805 Nugaros trauka žemyn<small>Lat pulldown</small></span><span class="ex-params">3×10–12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Hantelio vienos rankos traukimas<small>DB one-arm row</small></span><span class="ex-params">3×12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">KF810 Bicepsų lenkimas<small>Preacher curl</small></span><span class="ex-params">3×12<br>60s</span></li>
+          </ul>
+          <div class="ex-section">Pečiai</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">Hantelio pečių spaudimas sėdint<small>DB shoulder press</small></span><span class="ex-params">3×12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Šoninis hantelio kėlimas<small>DB lateral raise</small></span><span class="ex-params">2×15<br>45s</span></li>
+          </ul>
+          <div class="cooldown">Atvėsimas: Krūtinės tempimas ×30s · Platisimos tempimas ×30s · Pečių kryžminis ×30s</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Penktadienis 🦵</div><div class="card-sub">Jėgos B — apatinė + core + wakeboard</div></div><span class="badge badge-lower">Lower</span></div>
+        <div class="card-body">
+          <div class="warmup-block"><div class="warmup-lbl">Pašildymas 8 min</div>Kojų ratas ×20 · Sėdmenų tiltai ×10 · Pusiau pritūpimai ×10 · Šoniniai pasistumimai ×10</div>
+          <div class="ex-section">Kojos</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">KF807 Pritūpimo treniruoklis<small>Machine squat</small></span><span class="ex-params">3×10–12<br>75s</span></li>
+            <li class="ex-item"><span class="ex-name">KF812 Kojų tiesimas<small>Leg extension</small></span><span class="ex-params">3×12–15<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Hantelio išpuolimas<small>DB reverse lunge</small></span><span class="ex-params">3×10/koj.<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Sėdmenų tiltas<small>Glute bridge</small></span><span class="ex-params">3×15<br>45s</span></li>
+          </ul>
+          <div class="ex-section">Core & Wakeboard</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">Planka<small>Plank hold</small></span><span class="ex-params">3×30s<br>30s</span></li>
+            <li class="ex-item"><span class="ex-name">Vienos kojos balansas<small>Abu kojom 1–4 sav.</small></span><span class="ex-params">3×30s</span></li>
+            <li class="ex-item"><span class="ex-name">Woodchop su hantelu<small>Rotational chop</small></span><span class="ex-params">3×12·45s</span></li>
+            <li class="ex-item"><span class="ex-name">Planka su rankos pakėlimu<small>Plank reach</small></span><span class="ex-params">3×10·30s</span></li>
+          </ul>
+          <div class="cooldown">Atvėsimas: Keturgalvio tempimas ×30s · Šlaunies tempimas ×30s · Cat-cow ×10</div>
+        </div>
+      </div>
+    </div>
+    <div id="p1-home" class="loc-content">
+      <div class="home-note">🏠 Namų versija — hanteliai ir gumos. Lygiavertis efektyvumas.</div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Antradienis 💪</div><div class="card-sub">Jėgos A — viršutinė (namai)</div></div><span class="badge badge-upper">Upper</span></div>
+        <div class="card-body">
+          <div class="ex-section">Krūtinė & Tricepsai</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">Atsispaudimai nuo grindų<small>Push-up</small></span><span class="ex-params">3×12–15<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">DB floor press<small>Hantelio spaudimas gulint</small></span><span class="ex-params">3×12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Gumos tricepsų tiesimas<small>Band pushdown</small></span><span class="ex-params">3×15<br>45s</span></li>
+          </ul>
+          <div class="ex-section">Nugara & Bicepsai</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">Gumos trauka žemyn<small>Band lat pulldown</small></span><span class="ex-params">4×12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Hantelio vienos rankos traukimas<small>DB one-arm row</small></span><span class="ex-params">3×12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">DB bicepsų lenkimas<small>Hammer curl</small></span><span class="ex-params">3×12<br>60s</span></li>
+          </ul>
+          <div class="ex-section">Pečiai</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">Hantelio pečių spaudimas sėdint</span><span class="ex-params">3×12<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Šoninis hantelio kėlimas</span><span class="ex-params">2×15<br>45s</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Penktadienis 🦵</div><div class="card-sub">Jėgos B — apatinė (namai)</div></div><span class="badge badge-lower">Lower</span></div>
+        <div class="card-body">
+          <div class="ex-section">Kojos</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">Goblet pritūpimas su hantelu<small>DB goblet squat</small></span><span class="ex-params">4×12<br>75s</span></li>
+            <li class="ex-item"><span class="ex-name">Hantelio atgalinis išpuolimas<small>DB reverse lunge</small></span><span class="ex-params">3×10/koj.<br>60s</span></li>
+            <li class="ex-item"><span class="ex-name">Gumos sėdmenų tiltas<small>Band glute bridge</small></span><span class="ex-params">3×20<br>45s</span></li>
+            <li class="ex-item"><span class="ex-name">Gumos šoniniai pasistumimai<small>Band lateral walk</small></span><span class="ex-params">3×15/p.<br>30s</span></li>
+          </ul>
+          <div class="ex-section">Core & Wakeboard</div>
+          <ul class="ex-list">
+            <li class="ex-item"><span class="ex-name">Planka</span><span class="ex-params">3×30s<br>30s</span></li>
+            <li class="ex-item"><span class="ex-name">Vienos kojos balansas</span><span class="ex-params">3×30s</span></li>
+            <li class="ex-item"><span class="ex-name">Woodchop su hantelu</span><span class="ex-params">3×12·45s</span></li>
+            <li class="ex-item"><span class="ex-name">Planka su rankos pakėlimu</span><span class="ex-params">3×10·30s</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p2" class="phase-content">
+    <div class="alert alert-blue">Stiprėjimas — svoriai +10%. Poilsis: 45–75 sek.</div>
+    <div class="loc-toggle"><button class="loc-btn active" onclick="showLoc('p2','gym',this)">🏋️ Treniruokliai</button><button class="loc-btn" onclick="showLoc('p2','home',this)">🏠 Namai</button></div>
+    <div id="p2-gym" class="loc-content active">
+      <div class="card"><div class="card-header"><div><div class="card-title">Antradienis 💪</div><div class="card-sub">Jėgos A — viršutinė</div></div><span class="badge badge-upper">Upper</span></div>
+      <div class="card-body"><div class="ex-section">Krūtinė & Tricepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF801 Krūtinės spaudimas</span><span class="ex-params">4×8–10<br>75s</span></li><li class="ex-item"><span class="ex-name">KF808 Krūtinės sraigė</span><span class="ex-params">3×12<br>60s</span></li><li class="ex-item"><span class="ex-name">KF811 Tricepsų spaudimas</span><span class="ex-params">4×10<br>60s</span></li></ul><div class="ex-section">Nugara & Bicepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF805 Nugaros trauka žemyn</span><span class="ex-params">4×8–10<br>75s</span></li><li class="ex-item"><span class="ex-name">Hantelio vienos rankos traukimas</span><span class="ex-params">4×10<br>60s</span></li><li class="ex-item"><span class="ex-name">KF810 Bicepsų lenkimas</span><span class="ex-params">3×10<br>60s</span></li></ul><div class="ex-section">Pečiai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Hantelio pečių spaudimas sėdint</span><span class="ex-params">3×10<br>60s</span></li><li class="ex-item"><span class="ex-name">Šoninis + priekinis superset</span><span class="ex-params">3×12<br>45s</span></li></ul></div></div>
+      <div class="card"><div class="card-header"><div><div class="card-title">Penktadienis 🦵</div><div class="card-sub">Jėgos B — apatinė + core</div></div><span class="badge badge-lower">Lower</span></div>
+      <div class="card-body"><div class="ex-section">Kojos</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF807 Pritūpimo treniruoklis</span><span class="ex-params">4×8–10<br>90s</span></li><li class="ex-item"><span class="ex-name">KF812 Kojų tiesimas</span><span class="ex-params">3×12<br>60s</span></li><li class="ex-item"><span class="ex-name">Bulgariški pritūpimai</span><span class="ex-params">3×8/koj.<br>75s</span></li><li class="ex-item"><span class="ex-name">Vienakojis sėdmenų tiltas</span><span class="ex-params">3×12<br>45s</span></li></ul><div class="ex-section">Core & Wakeboard</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Weighted crunch su hantelu</span><span class="ex-params">3×15<br>30s</span></li><li class="ex-item"><span class="ex-name">Vienos kojos balansas</span><span class="ex-params">3×30s</span></li><li class="ex-item"><span class="ex-name">Woodchop su hantelu</span><span class="ex-params">3×12·45s</span></li><li class="ex-item"><span class="ex-name">Sukamieji šuoliai 90°</span><span class="ex-params">3×10·45s</span></li></ul></div></div>
+    </div>
+    <div id="p2-home" class="loc-content"><div class="home-note">🏠 Namų versija</div>
+      <div class="card"><div class="card-header"><div><div class="card-title">Antradienis 💪</div><div class="card-sub">Jėgos A — namai</div></div><span class="badge badge-upper">Upper</span></div><div class="card-body"><div class="ex-section">Krūtinė & Tricepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Decline push-up<small>Kojos ant kėdės</small></span><span class="ex-params">4×10–12<br>60s</span></li><li class="ex-item"><span class="ex-name">DB floor press + guma</span><span class="ex-params">3×10<br>60s</span></li><li class="ex-item"><span class="ex-name">Gumos tricepsų tiesimas virš galvos</span><span class="ex-params">4×12<br>45s</span></li></ul><div class="ex-section">Nugara & Bicepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Gumos trauka žemyn + 2s pauzė</span><span class="ex-params">4×12<br>60s</span></li><li class="ex-item"><span class="ex-name">DB row tempas 3-1-1</span><span class="ex-params">4×10<br>60s</span></li><li class="ex-item"><span class="ex-name">DB bicepsų lenkimas kintamas</span><span class="ex-params">3×10/r.<br>60s</span></li></ul><div class="ex-section">Pečiai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Hantelio pečių spaudimas sėdint</span><span class="ex-params">3×10<br>60s</span></li><li class="ex-item"><span class="ex-name">Šoninis + priekinis superset</span><span class="ex-params">3×12<br>45s</span></li></ul></div></div>
+      <div class="card"><div class="card-header"><div><div class="card-title">Penktadienis 🦵</div><div class="card-sub">Jėgos B — namai</div></div><span class="badge badge-lower">Lower</span></div><div class="card-body"><div class="ex-section">Kojos</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Goblet squat + 2s pauzė</span><span class="ex-params">4×10<br>90s</span></li><li class="ex-item"><span class="ex-name">Bulgariški pritūpimai su hantelu</span><span class="ex-params">3×8/koj.<br>75s</span></li><li class="ex-item"><span class="ex-name">Vienakojis sėdmenų tiltas su guma</span><span class="ex-params">3×12<br>45s</span></li><li class="ex-item"><span class="ex-name">Gumos šoniniai pasistumimai</span><span class="ex-params">3×15/p.<br>30s</span></li></ul><div class="ex-section">Core & Wakeboard</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Planka</span><span class="ex-params">3×40s<br>30s</span></li><li class="ex-item"><span class="ex-name">Vienos kojos balansas</span><span class="ex-params">3×30s</span></li><li class="ex-item"><span class="ex-name">Woodchop su hantelu</span><span class="ex-params">3×12·45s</span></li><li class="ex-item"><span class="ex-name">Šuoliai 90°</span><span class="ex-params">3×10·45s</span></li></ul></div></div>
+    </div>
+  </div>
+
+  <div id="p3" class="phase-content">
+    <div class="alert" style="background:var(--purple-dim);border-left:3px solid var(--purple);border-radius:var(--r2);padding:12px 16px;font-size:13px;color:var(--purple);margin-bottom:12px">Pikas — maksimalus intensyvumas. Poilsis: 90–120s.</div>
+    <div class="loc-toggle"><button class="loc-btn active" onclick="showLoc('p3','gym',this)">🏋️ Treniruokliai</button><button class="loc-btn" onclick="showLoc('p3','home',this)">🏠 Namai</button></div>
+    <div id="p3-gym" class="loc-content active">
+      <div class="card"><div class="card-header"><div><div class="card-title">Antradienis 💪</div><div class="card-sub">Jėgos A — viršutinė</div></div><span class="badge badge-upper">Upper</span></div><div class="card-body"><div class="ex-section">Krūtinė & Tricepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF801 Krūtinės spaudimas</span><span class="ex-params">4×6–8<br>90s</span></li><li class="ex-item"><span class="ex-name">KF808 Krūtinės sraigė</span><span class="ex-params">4×10<br>60s</span></li><li class="ex-item"><span class="ex-name">KF811 Tricepsų spaudimas</span><span class="ex-params">4×8<br>75s</span></li></ul><div class="ex-section">Nugara & Bicepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF805 Nugaros trauka žemyn</span><span class="ex-params">4×6–8<br>90s</span></li><li class="ex-item"><span class="ex-name">Hantelio vienos rankos traukimas</span><span class="ex-params">4×8<br>75s</span></li><li class="ex-item"><span class="ex-name">KF810 Bicepsų lenkimas</span><span class="ex-params">4×8<br>75s</span></li></ul><div class="ex-section">Pečiai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Hantelio pečių spaudimas sėdint</span><span class="ex-params">4×8<br>75s</span></li><li class="ex-item"><span class="ex-name">Šoninis + priekinis + nugarinis</span><span class="ex-params">3×10<br>45s</span></li></ul></div></div>
+      <div class="card"><div class="card-header"><div><div class="card-title">Penktadienis 🦵</div><div class="card-sub">Jėgos B — apatinė + core</div></div><span class="badge badge-lower">Lower</span></div><div class="card-body"><div class="ex-section">Kojos</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF807 Pritūpimo treniruoklis</span><span class="ex-params">4×6–8<br>120s</span></li><li class="ex-item"><span class="ex-name">KF812 Kojų tiesimas</span><span class="ex-params">4×10<br>75s</span></li><li class="ex-item"><span class="ex-name">Bulgariški pritūpimai su hantelu</span><span class="ex-params">4×8/koj.<br>90s</span></li><li class="ex-item"><span class="ex-name">Vienakojis sėdmenų tiltas su svoriu</span><span class="ex-params">3×12<br>60s</span></li></ul><div class="ex-section">Core & Wakeboard</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Planka + šoninis kėlimas</span><span class="ex-params">3×12<br>45s</span></li><li class="ex-item"><span class="ex-name">Dinaminis vienakojis balansas</span><span class="ex-params">3×30s</span></li><li class="ex-item"><span class="ex-name">Šuoliai su 180° sukimu</span><span class="ex-params">4×8·45s</span></li><li class="ex-item"><span class="ex-name">Woodchop + šuolio simuliacija</span><span class="ex-params">3×12·45s</span></li></ul></div></div>
+    </div>
+    <div id="p3-home" class="loc-content"><div class="home-note">🏠 Piko namų versija</div>
+      <div class="card"><div class="card-header"><div><div class="card-title">Antradienis 💪</div><div class="card-sub">Jėgos A — namai</div></div><span class="badge badge-upper">Upper</span></div><div class="card-body"><div class="ex-section">Krūtinė & Tricepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Gumos atsispaudimai<small>Band-resisted push-up</small></span><span class="ex-params">4×8–10<br>75s</span></li><li class="ex-item"><span class="ex-name">DB floor press tempas 3-1-2</span><span class="ex-params">4×8<br>75s</span></li><li class="ex-item"><span class="ex-name">Gumos tricepsų tiesimas virš galvos</span><span class="ex-params">4×10<br>60s</span></li></ul><div class="ex-section">Nugara & Bicepsai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Gumos trauka žemyn + 3s pauzė</span><span class="ex-params">4×8<br>75s</span></li><li class="ex-item"><span class="ex-name">DB row tempas 3-1-2</span><span class="ex-params">4×8<br>75s</span></li><li class="ex-item"><span class="ex-name">DB bicepsų lenkimas + pauzė viduryje</span><span class="ex-params">4×8<br>60s</span></li></ul><div class="ex-section">Pečiai</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">DB Arnold press</span><span class="ex-params">4×8<br>75s</span></li><li class="ex-item"><span class="ex-name">Šoninis + priekinis + nugarinis</span><span class="ex-params">3×10<br>45s</span></li></ul></div></div>
+      <div class="card"><div class="card-header"><div><div class="card-title">Penktadienis 🦵</div><div class="card-sub">Jėgos B — namai</div></div><span class="badge badge-lower">Lower</span></div><div class="card-body"><div class="ex-section">Kojos</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Goblet squat 4s žemyn + sprogimas</span><span class="ex-params">4×8<br>120s</span></li><li class="ex-item"><span class="ex-name">Bulgariški pritūpimai (sunkesnis)</span><span class="ex-params">4×8/koj.<br>90s</span></li><li class="ex-item"><span class="ex-name">Vienakojis tiltas su hantelu ant pilvo</span><span class="ex-params">3×12<br>60s</span></li><li class="ex-item"><span class="ex-name">Gumos šoniniai pasistumimai</span><span class="ex-params">3×15/p.<br>30s</span></li></ul><div class="ex-section">Core & Wakeboard</div><ul class="ex-list"><li class="ex-item"><span class="ex-name">Planka ant vienos rankos + kojos</span><span class="ex-params">3×20s·30s</span></li><li class="ex-item"><span class="ex-name">Dinaminis vienakojis balansas</span><span class="ex-params">3×30s</span></li><li class="ex-item"><span class="ex-name">Šuoliai 180°</span><span class="ex-params">4×8·45s</span></li><li class="ex-item"><span class="ex-name">Woodchop simuliacija</span><span class="ex-params">3×12·45s</span></li></ul></div></div>
+    </div>
+  </div>
+
+  <div id="pd" class="phase-content">
+    <div class="alert alert-amber">Iškrovimas (4, 8, 12 sav.) — 50% svoriai, 2 serijos. Be kaltės jausmo.</div>
+    <div class="card"><div class="card-header"><div><div class="card-title">Antradienis</div><div class="card-sub">Jėgos A — lengva</div></div><span class="badge badge-upper">Upper</span></div><div class="card-body"><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF801 / Atsispaudimai</span><span class="ex-params">2×12·60s</span></li><li class="ex-item"><span class="ex-name">KF805 / Gumos trauka žemyn</span><span class="ex-params">2×12·60s</span></li><li class="ex-item"><span class="ex-name">KF810 / DB bicepsų lenkimas</span><span class="ex-params">2×12·60s</span></li><li class="ex-item"><span class="ex-name">Lengvas pečių spaudimas</span><span class="ex-params">2×12·60s</span></li></ul></div></div>
+    <div class="card"><div class="card-header"><div><div class="card-title">Penktadienis</div><div class="card-sub">Jėgos B — lengva</div></div><span class="badge badge-lower">Lower</span></div><div class="card-body"><ul class="ex-list"><li class="ex-item"><span class="ex-name">KF807 / Goblet squat</span><span class="ex-params">2×10·75s</span></li><li class="ex-item"><span class="ex-name">KF812 / Gumos kojos tiesimas</span><span class="ex-params">2×12·60s</span></li><li class="ex-item"><span class="ex-name">Sėdmenų tiltai</span><span class="ex-params">2×15·45s</span></li><li class="ex-item"><span class="ex-name">Planka</span><span class="ex-params">2×30s·30s</span></li></ul></div></div>
+  </div>
+</div>
+
+<!-- MITYBA -->
+<div id="nutrition" class="section">
+  <div class="page-title">Mityba</div>
+  <div class="page-sub">~1 595 kcal · ~122g baltymų · paprastas planas</div>
+  <div class="stats-row">
+    <div class="stat-card accent"><div class="stat-lbl">Kalorijos</div><div class="stat-val">1 595</div><div class="stat-sub">Deficitas ~855/d.</div></div>
+    <div class="stat-card"><div class="stat-lbl">Baltymai</div><div class="stat-val">~122g</div><div class="stat-sub">Raumenų apsauga</div></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:16px">
+    <div class="card-body">
+      <div class="macro-row"><span class="macro-lbl">Baltymai ~122g</span><div class="macro-bar"><div class="macro-fill" style="width:31%;background:var(--accent)"></div></div><span class="macro-val">31% · 488kcal</span></div>
+      <div class="macro-row"><span class="macro-lbl">Angliavandeniai</span><div class="macro-bar"><div class="macro-fill" style="width:43%;background:var(--blue)"></div></div><span class="macro-val">43% · 680kcal</span></div>
+      <div class="macro-row" style="margin-bottom:0"><span class="macro-lbl">Riebalai ~47g</span><div class="macro-bar"><div class="macro-fill" style="width:26%;background:var(--amber)"></div></div><span class="macro-val">26% · 423kcal</span></div>
+    </div>
+  </div>
+  <div class="meal-card"><div class="meal-header"><div class="meal-title">🍳 Pusryčiai</div><div class="meal-meta">~300 kcal<br>~25g baltymų</div></div><div class="meal-body"><div class="meal-row"><div class="meal-row-name">2 kiaušiniai (virti arba keptiniai)</div><div class="meal-row-val">140 kcal<br>12g B</div></div><div class="meal-row"><div class="meal-row-name">150g graikiškas jogurtas</div><div class="meal-row-val">160 kcal<br>13g B</div></div></div></div>
+  <div class="meal-card"><div class="meal-header"><div class="meal-title">🥗 Pietūs</div><div class="meal-meta">~480 kcal<br>~30g baltymų</div></div><div class="meal-body"><div class="meal-row"><div class="meal-row-name">Lidl salotos su kuskusu ir edamame<small>270g · naudok tik pusę padažo</small></div><div class="meal-row-val">480 kcal<br>30g B</div></div></div></div>
+  <div class="meal-card"><div class="meal-header"><div class="meal-title">🥤 15:00 Kokteilis</div><div class="meal-meta">~115 kcal<br>~22g baltymų</div></div><div class="meal-body"><div class="meal-row"><div class="meal-row-name">MyProtein Impact Whey 30g + vanduo<small>Šokoladas arba vanilė</small></div><div class="meal-row-val">115 kcal<br>22g B</div></div></div></div>
+  <div class="meal-card"><div class="meal-header"><div class="meal-title">🍽️ Vakarienė — 5 rotacijos</div><div class="meal-meta">~700 kcal<br>~45g baltymų</div></div><div class="meal-body"><div class="meal-row"><div class="meal-row-name">🐟 Lašiša + grikiai + brokoliai</div><div class="meal-row-val">700kcal<br>45g B</div></div><div class="meal-row"><div class="meal-row-name">🍗 Vištiena + ryžiai + paprika</div><div class="meal-row-val">680kcal<br>50g B</div></div><div class="meal-row"><div class="meal-row-name">🥩 Malta jautiena + bulvės</div><div class="meal-row-val">720kcal<br>42g B</div></div><div class="meal-row"><div class="meal-row-name">🍳 Kiaušinienė (3) + daržovės + duona</div><div class="meal-row-val">650kcal<br>35g B</div></div><div class="meal-row"><div class="meal-row-name">🐡 Menkė + bulvių košė + daržovės</div><div class="meal-row-val">690kcal<br>43g B</div></div></div></div>
+  <div class="alert alert-green">Baltymai kiekviename valgyje · 2,5–3l vandens · Alus max 2× savaitėje · 80/20 taisyklė</div>
+</div>
+
+<!-- PAPILDAI -->
+<div id="supps" class="section">
+  <div class="page-title">Papildai</div>
+  <div class="page-sub">Kasdieniai papildai + vakaro rutina</div>
+  <div class="section-label">Rytiniai (su pusryčiais)</div>
+  <div class="supp-list">
+    <div class="supp-item"><div class="supp-icon-wrap" style="background:var(--blue-dim)">☀️</div><div><div class="supp-name">Vitaminas D</div><div class="supp-dose">2 000–4 000 IU</div><div class="supp-time">Su maistu ryte</div></div></div>
+    <div class="supp-item"><div class="supp-icon-wrap" style="background:var(--accent-dim)">⚡</div><div><div class="supp-name">Kreatinas</div><div class="supp-dose">5g su vandeniu</div><div class="supp-time">Kasdien — ryte</div></div></div>
+    <div class="supp-item"><div class="supp-icon-wrap" style="background:var(--amber-dim)">🐟</div><div><div class="supp-name">Omega-3</div><div class="supp-dose">1–2g EPA+DHA</div><div class="supp-time">Su maistu (rekomenduojama)</div></div></div>
+  </div>
+  <div class="section-label">Vakare (prieš miegą)</div>
+  <div class="supp-list">
+    <div class="supp-item"><div class="supp-icon-wrap" style="background:var(--purple-dim)">🌙</div><div><div class="supp-name">Magnis Bisglicinatas</div><div class="supp-dose">300–400mg</div><div class="supp-time">Prieš miegą — geriau miegas</div></div></div>
+  </div>
+  <div class="section-label">15:00</div>
+  <div class="supp-list">
+    <div class="supp-item"><div class="supp-icon-wrap" style="background:var(--accent-dim)">🥤</div><div><div class="supp-name">MyProtein Impact Whey</div><div class="supp-dose">30g + vanduo · 115 kcal · 22g B</div><div class="supp-time">15:00 kasdien</div></div></div>
+  </div>
+  <div class="section-label">Vakaro rutina</div>
+  <div class="sleep-list">
+    <div class="sleep-item"><div class="sleep-time">21:00</div><div class="sleep-icon">👶</div><div><div class="sleep-action">Vaikas miegot</div></div></div>
+    <div class="sleep-item"><div class="sleep-time">21:05</div><div class="sleep-icon">🥣</div><div><div class="sleep-action">Overnight oats<small>80g avižų + pienas + uogos → šaldytuvas</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">21:10</div><div class="sleep-icon">🧘</div><div><div class="sleep-action">Tempimas 5 min<small>Lenkimas 60s · Šlaunies 30s · Sėdimas 60s</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">21:20</div><div class="sleep-icon">💊</div><div><div class="sleep-action">Magnis bisglicinatas<small>Atsipalaiduojama, greičiau užmiegi</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">22:30</div><div class="sleep-icon">📵</div><div><div class="sleep-action">Telefonas žemyn<small>Doom scrolling baigiasi čia</small></div></div></div>
+    <div class="sleep-item"><div class="sleep-time">23:00</div><div class="sleep-icon">🌙</div><div><div class="sleep-action">Miegot ← TIKSLAS<small>7.5h → 06:30 keltis žvaliai</small></div></div></div>
+  </div>
+</div>
+
+<!-- ŽURNALAS -->
+<div id="tracker" class="section">
+  <div id="tracker-content"><div style="padding:2rem 0;color:var(--text2);text-align:center">Kraunama...</div></div>
+</div>
+
+<!-- DAUGIAU -->
+<!-- ZONE 2 -->
+<div id="zone2" class="section">
+  <div class="page-title">Zone 2 <span>🐕</span></div>
+  <div class="page-sub">Polar CSV importas · grafikai · progresas</div>
+
+  <!-- IMPORT CARD -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header">
+      <div><div class="card-title">Įkelti Polar sesiją</div><div class="card-sub">flow.polar.com → sesija → Export → Session (CSV)</div></div>
+      <span style="font-size:24px">📤</span>
+    </div>
+    <div class="card-body">
+      <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;margin-bottom:12px;font-size:13px;color:var(--text2);line-height:1.7">
+        <strong style="color:var(--text)">Kaip eksportuoti:</strong><br>
+        1. Eik į <strong style="color:var(--accent)">flow.polar.com</strong><br>
+        2. Spauski ant sesijos (ėjimo)<br>
+        3. Viršuje dešinėje → <strong style="color:var(--accent)">Export → Session (CSV)</strong><br>
+        4. Grįžk čia ir įkelk failą ↓
+      </div>
+      <label id="csv-upload-label" style="display:flex;align-items:center;justify-content:center;gap:10px;background:var(--accent);color:#080808;border-radius:var(--r2);padding:14px;font-size:15px;font-weight:800;cursor:pointer;transition:all 0.15s">
+        <span>📂</span> Pasirinkti CSV failą
+        <input type="file" accept=".csv" id="polar-csv" style="display:none" onchange="importPolarCSV(this)">
+      </label>
+      <div id="csv-status" style="margin-top:10px;font-size:13px;color:var(--text2);text-align:center"></div>
+    </div>
+  </div>
+
+  <!-- SESIJŲ STATISTIKA -->
+  <div id="z2-stats-row" style="display:none">
+    <div class="stats-row-3" id="z2-top-stats"></div>
+  </div>
+
+  <!-- GRAFIKAI -->
+  <div id="z2-charts" style="display:none">
+    <div class="section-label">HR avg progresas</div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-body" style="padding:12px 10px">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Tikslas: HR avg mažėja — tai reiškia kūnas adaptuojasi ✓</div>
+        <svg id="chart-hr" viewBox="0 0 340 110" style="width:100%;height:auto"></svg>
+      </div>
+    </div>
+
+    <div class="section-label">Zone 2 % per sesijas</div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-body" style="padding:12px 10px">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Tikslas: Zone 2 % auga → aerobinė bazė stiprėja ✓</div>
+        <svg id="chart-z2" viewBox="0 0 340 110" style="width:100%;height:auto"></svg>
+      </div>
+    </div>
+
+    <div class="section-label">Tempas (min/km)</div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-body" style="padding:12px 10px">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Tikslas: tempas gerėja su tuo pačiu HR ✓</div>
+        <svg id="chart-pace" viewBox="0 0 340 110" style="width:100%;height:auto"></svg>
+      </div>
+    </div>
+
+    <div class="section-label">Kalorijos per sesijas</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-body" style="padding:12px 10px">
+        <svg id="chart-kcal" viewBox="0 0 340 90" style="width:100%;height:auto"></svg>
+      </div>
+    </div>
+
+    <!-- SESIJŲ SĄRAŠAS -->
+    <div class="section-label">Visos sesijos</div>
+    <div id="z2-sessions-list"></div>
+  </div>
+
+  <!-- TUŠČIAS STOVAS -->
+  <div id="z2-empty">
+    <div style="text-align:center;padding:40px 20px;color:var(--text3)">
+      <div style="font-size:48px;margin-bottom:12px">🐕</div>
+      <div style="font-size:16px;font-weight:700;color:var(--text2);margin-bottom:6px">Dar nėra sesijų</div>
+      <div style="font-size:13px;line-height:1.6">Įkelk Polar CSV failą iš viršaus<br>ir čia atsiras gražūs grafikai</div>
+    </div>
+  </div>
+</div>
+
+<div id="more" class="section">
+  <div class="page-title">Daugiau</div>
+  <div class="page-sub">Zone 2, Progresija, Koja</div>
+
+  <div class="section-label">Zone 2 ėjimas 🐕</div>
+  <div class="stats-row-3">
+    <div class="stat-card"><div class="stat-lbl">Zone 2</div><div class="stat-val-sm">120–131</div><div class="stat-sub">bpm</div></div>
+    <div class="stat-card"><div class="stat-lbl">Tempas dabar</div><div class="stat-val-sm">10:20</div><div class="stat-sub">min/km</div></div>
+    <div class="stat-card"><div class="stat-lbl">Kcal/sav.</div><div class="stat-val-sm">~1400</div><div class="stat-sub">iš ėjimų</div></div>
+  </div>
+  <div class="alert alert-green">Dabar ėjimas = Zone 2 ✓. Per 4–6 sav. ėjimas bus Zone 1 → pradėsi bėgioti.</div>
+
+  <div class="section-label">Progresija</div>
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>Sav.</th><th>Fazė</th><th>Serijos×Reps</th><th>Kūno svoris</th></tr></thead>
+    <tbody>
+      <tr><td>1–3</td><td><span class="fbadge fb-green">Pamatas</span></td><td>3×10–12</td><td>~85,5 kg</td></tr>
+      <tr class="dr"><td>4</td><td><span class="fbadge fb-gray">Iškrovimas</span></td><td>2×12</td><td>~85 kg</td></tr>
+      <tr><td>5–7</td><td><span class="fbadge fb-blue">Stiprėjimas</span></td><td>4×8–10</td><td>~83 kg</td></tr>
+      <tr class="dr"><td>8</td><td><span class="fbadge fb-gray">Iškrovimas</span></td><td>2×12</td><td>~82,5 kg</td></tr>
+      <tr><td>9–11</td><td><span class="fbadge fb-purple">Pikas</span></td><td>4–5×6–8</td><td>~80 kg</td></tr>
+      <tr class="dr"><td>12</td><td><span class="fbadge fb-gray">Iškrovimas</span></td><td>2×12</td><td>~79 kg ✓</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="section-label">Koja 🦵</div>
+  <div class="alert alert-amber">Koja nebeskauda — saugotis dar 4–6 savaites.</div>
+  <div class="card"><div class="card-body">
+    <div class="inj-row"><span class="inj-name">Bėgimas ant kieto paviršiaus</span><span class="fbadge" style="background:var(--red-dim);color:var(--red)">Vengti</span></div>
+    <div class="inj-row"><span class="inj-name">Šuoliai ant vienos kojos</span><span class="fbadge" style="background:var(--red-dim);color:var(--red)">Vengti</span></div>
+    <div class="inj-row"><span class="inj-name">Staigūs krypties pokyčiai</span><span class="fbadge" style="background:var(--red-dim);color:var(--red)">Vengti</span></div>
+    <div class="inj-row"><span class="inj-name">Kojų spaudimas su max apkrova</span><span class="fbadge" style="background:var(--amber-dim);color:var(--amber)">Atsargiai</span></div>
+  </div></div>
+  <div class="section-label">Kasdienė priežiūra</div>
+  <div class="card"><div class="card-body">
+    <div class="care-row"><span class="care-name">Ledinė masažas po aktyvumo</span><span class="care-val">10–15 min</span></div>
+    <div class="care-row"><span class="care-name">Kulnų ėjimas</span><span class="care-val">2×30s</span></div>
+    <div class="care-row"><span class="care-name">Tibialis raises</span><span class="care-val">2×15</span></div>
+    <div class="care-row"><span class="care-name">Gumos eversion</span><span class="care-val">2×15</span></div>
+    <div class="care-row"><span class="care-name">Čiurnos mobilumo ratai</span><span class="care-val">2×10</span></div>
+    <div class="care-row"><span class="care-name">Peronealų tempimas</span><span class="care-val">2×30s</span></div>
+  </div></div>
+
+  <div class="section-label">Kaip naudoti kaip App</div>
+  <div class="card"><div class="card-body" style="font-size:14px;color:var(--text2);line-height:1.7">
+    <strong style="color:var(--text)">iPhone:</strong> Safari → Share → „Add to Home Screen" → Taip gausit ikoną kaip tikra app, atsidarys fullscreen.<br><br>
+    <strong style="color:var(--text)">Svarbu:</strong> Visada atsidaryk tik iš tos ikonos — duomenys saugomi toje naršyklėje.
+  </div></div>
+</div>
+
+</div><!-- end .content -->
+
+<script>
+const SK='dov_v4';
+function ld(){try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{};}}
+function sd(d){localStorage.setItem(SK,JSON.stringify(d));}
+function todayKey(){return new Date().toISOString().split('T')[0];}
+const START=new Date('2026-05-25');
+function getCW(){return Math.min(Math.max(Math.floor((new Date()-START)/(864e5*7))+1,1),12);}
+function getPhase(w){if(w<=3)return'Pamatas';if(w===4)return'Iškrovimas';if(w<=7)return'Stiprėjimas';if(w===8)return'Iškrovimas';if(w<=11)return'Pikas';return'Iškrovimas';}
+function isDeload(w){return w===4||w===8||w===12;}
+function getDays(){return Math.max(1,Math.floor((new Date()-START)/864e5)+1);}
+
+function showSec(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showPhase(id,btn){
+  document.querySelectorAll('.phase-content').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.phase-chip').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).style.display='block';btn.classList.add('active');
+  setTimeout(initCB,60);
+}
+function showLoc(phase,loc,btn){
+  ['gym','home'].forEach(l=>{const el=document.getElementById(phase+'-'+l);if(el)el.classList.remove('active');});
+  btn.parentElement.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('active'));
+  const t=document.getElementById(phase+'-'+loc);if(t)t.classList.add('active');
+  btn.classList.add('active');setTimeout(initCB,60);
+}
+
+// TODAY BANNER
+const DAY_ACTS={
+  0:{emoji:'🌲',title:'Poilsis + Ėjimas 🐕',sub:'Zona 2 · 2km su šunimi',color:'var(--text2)'},
+  1:{emoji:'🎾',title:'Padelis 1.5h',sub:'+ ėjimas Zone 2',color:'var(--blue)'},
+  2:{emoji:'💪',title:'Jėgos A — Viršutinė',sub:'Antradienis · spaudimas + trauka',color:'var(--accent)'},
+  3:{emoji:'🌲',title:'Poilsis + Ėjimas 🐕',sub:'Zona 2 · 2km su šunimi',color:'var(--text2)'},
+  4:{emoji:'🎾',title:'Padelis 1.5h',sub:'+ ėjimas Zone 2',color:'var(--blue)'},
+  5:{emoji:'🦵',title:'Jėgos B — Apatinė',sub:'Penktadienis · kojos + core',color:'var(--amber)'},
+  6:{emoji:'🏄',title:'Wakeboard 🤙',sub:'+ ėjimas Zone 2',color:'var(--purple)'}
+};
+function initTodayBanner(){
+  const dow=new Date().getDay();const d=DAY_ACTS[dow];
+  const el=document.getElementById('today-banner-wrap');
+  if(!el)return;
+  el.innerHTML=`<div class="today-card">
+    <div class="today-eyebrow">Šiandien · ${new Date().toLocaleDateString('lt-LT',{weekday:'long',month:'long',day:'numeric'})}</div>
+    <div class="today-title" style="color:${d.color}">${d.emoji} ${d.title}</div>
+    <div class="today-date">${d.sub}</div>
+    <div class="today-actions">
+      <button class="btn-primary" onclick="openWorkout()">Atidaryti treniruotę →</button>
+      <button class="btn-secondary" onclick="goTracker()">📋</button>
+    </div>
+  </div>`;
+  // Evening activity
+  const ea=document.getElementById('evening-title');
+  if(ea)ea.innerHTML=`${d.emoji} ${d.title}<small>${d.sub}</small>`;
+}
+function openWorkout(){
+  const btn=Array.from(document.querySelectorAll('.nav-item'))[1];
+  showSec('workouts',btn);setTimeout(initCB,60);
+}
+function goTracker(){
+  const btn=Array.from(document.querySelectorAll('.nav-item'))[4];
+  showSec('tracker',btn);initTracker();
+}
+
+// WEEK STRIP
+const DSHORT=['S','P','A','T','K','Pe','Š'];
+const DACTS=[
+  {icon:'🌲',color:'var(--text3)'},
+  {icon:'🎾',color:'var(--blue)'},
+  {icon:'💪',color:'var(--accent)'},
+  {icon:'🌲',color:'var(--text3)'},
+  {icon:'🎾',color:'var(--blue)'},
+  {icon:'🦵',color:'var(--amber)'},
+  {icon:'🏄',color:'var(--purple)'}
+];
+function initWeekStrip(){
+  const ws=document.getElementById('week-strip');if(!ws)return;
+  const today=new Date().getDay();
+  ws.innerHTML=DACTS.map((a,i)=>`
+    <div class="wd ${i===today?'today-wd':''} ${a.icon!=='🌲'?'sport-wd':''}">
+      <div class="wd-name">${DSHORT[i]}</div>
+      <div class="wd-icon">${a.icon}</div>
+      <div class="wd-dot" style="background:${i===today?'var(--accent)':a.color};opacity:${i===today?1:0.5}"></div>
+    </div>`).join('');
+}
+
+// HEADER
+function initHeader(){
+  const cw=getCW();
+  const hp=document.getElementById('header-pill');
+  const dw=document.getElementById('dash-week');
+  const dp=document.getElementById('dash-phase');
+  if(hp)hp.textContent=`Sav. ${cw}/12`;
+  if(dw)dw.textContent=cw+'/12';
+  if(dp)dp.textContent=getPhase(cw);
+}
+
+// PROGRESS
+function initProgress(){
+  const data=ld();const weights=data.weights||{};
+  const vals=Object.values(weights).map(Number).filter(v=>v>0);
+  const latest=vals.length?Math.min(...vals):87;
+  const pct=Math.max(0,Math.min(100,((87-latest)/8)*100));
+  setTimeout(()=>{
+    const p=document.getElementById('pbar');if(p)p.style.width=pct+'%';
+    const pv=document.getElementById('prog-val');if(pv)pv.textContent=Math.round(pct)+'%';
+  },500);
+}
+
+// CHECKBOXES
+function initCB(){
+  const today=todayKey();const data=ld();
+  const exData=(data.exercises&&data.exercises[today])||{};
+  document.querySelectorAll('.loc-content.active .ex-list').forEach((list,li)=>{
+    const card=list.closest('.card');if(!card)return;
+    if(!card.dataset.cid)card.dataset.cid='c'+li+Math.random().toString(36).slice(2,5);
+    const cid=card.dataset.cid;
+    list.querySelectorAll('.ex-item').forEach((item,ei)=>{
+      if(item.dataset.cbi)return;item.dataset.cbi='1';
+      const ek=today+'_'+cid+'_'+ei;
+      const cb=document.createElement('input');
+      cb.type='checkbox';cb.className='ex-checkbox';
+      cb.checked=!!exData[ek];cb.dataset.ek=ek;
+      cb.addEventListener('change',()=>onCB(cb,card,today));
+      item.insertBefore(cb,item.firstChild);
+      if(cb.checked)item.classList.add('ex-done');
+    });
+    const body=card.querySelector('.card-body');
+    if(body&&!card.querySelector('.day-complete-btn-wrap')){
+      const w=document.createElement('div');w.className='day-complete-btn-wrap';body.appendChild(w);
+    }
+    updCard(card,today,data);
+  });
+}
+function onCB(cb,card,today){
+  const data=ld();if(!data.exercises)data.exercises={};if(!data.exercises[today])data.exercises[today]={};
+  data.exercises[today][cb.dataset.ek]=cb.checked;sd(data);
+  cb.closest('.ex-item')?.classList.toggle('ex-done',cb.checked);
+  updCard(card,today,data);
+}
+function updCard(card,today,data){
+  const wrap=card.querySelector('.day-complete-btn-wrap');if(!wrap)return;
+  const cbs=Array.from(card.querySelectorAll('.ex-checkbox'));if(!cbs.length)return;
+  const done=cbs.filter(c=>c.checked).length;
+  const logged=data.workouts&&data.workouts[today];
+  if(logged){
+    wrap.innerHTML='<div class="day-logged">✅ Treniruotė įrašyta!</div>';
+  } else if(done===cbs.length){
+    wrap.innerHTML='<div class="day-all-done"><div class="day-all-msg">🎉 Visi pratimai atlikti!</div><button class="day-log-btn" onclick="logDay(this)">✓ Įrašyti į žurnalą</button><button class="reset-day-btn" onclick="resetCB(this)">↺ Atstatyti</button></div>';
+  } else if(done>0){
+    wrap.innerHTML='<div class="day-progress-mini">'+done+' / '+cbs.length+' atlikta</div><button class="reset-day-btn" onclick="resetCB(this)">↺ Atstatyti</button>';
+  } else {wrap.innerHTML='';}
+}
+function logDay(btn){
+  const today=todayKey();const data=ld();if(!data.workouts)data.workouts={};
+  const al=document.querySelector('.phase-content[style*="block"] .loc-content.active');
+  const loc=al&&al.id&&al.id.includes('home')?'home':'gym';
+  data.workouts[today]={done:true,location:loc,notes:'Pratimų sąrašas',ts:Date.now()};
+  sd(data);
+  document.querySelectorAll('.day-complete-btn-wrap').forEach(w=>{const c=w.closest('.card');if(c)updCard(c,today,data);});
+  confetti();
+}
+function resetCB(btn){
+  if(!confirm('Ištrinti?'))return;
+  const today=todayKey();const card=btn.closest('.card');const data=ld();
+  if(data.exercises&&data.exercises[today])card.querySelectorAll('.ex-checkbox').forEach(cb=>{delete data.exercises[today][cb.dataset.ek];cb.checked=false;cb.closest('.ex-item')?.classList.remove('ex-done');});
+  sd(data);updCard(card,today,data);
+}
+function confetti(){
+  const cols=['#c8f060','#a0d040','#fff','#f0a030','#5bb8f5'];
+  for(let i=0;i<50;i++){
+    const el=document.createElement('div');el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.2+Math.random()*0.8}s;width:${5+Math.random()*8}px;height:${5+Math.random()*8}px`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),2500);
+  }
+}
+
+// TRACKER
+const DNAMES=['Sek','Pir','Ant','Tre','Ket','Pen','Šeš'];
+function fmt(d){return d.toLocaleDateString('lt-LT',{month:'short',day:'numeric'});}
+function getWD(w){const days=[];const ws=new Date(START);ws.setDate(START.getDate()+(w-1)*7);for(let i=0;i<7;i++){const d=new Date(ws);d.setDate(ws.getDate()+i);days.push(d);}return days;}
+function isSport(dow){return[1,2,4,5,6].includes(dow);}
+function getActLabel(dow){return{1:'Padelis 🎾',2:'Jėgos A 💪',4:'Padelis 🎾',5:'Jėgos B 🦵',6:'Wakeboard 🏄'}[dow]||'Ėjimas 🐕';}
+window._selW=null;window._ls={};
+function selLoc(dk,loc){
+  window._ls[dk]=loc;
+  ['lg','lh'].forEach(p=>{const b=document.getElementById(p+'-'+dk);if(b)b.classList.remove('sel');});
+  const sel=document.getElementById((loc==='gym'?'lg':'lh')+'-'+dk);if(sel)sel.classList.add('sel');
+}
+function markW(dk){
+  const data=ld();if(!data.workouts)data.workouts={};
+  const loc=(window._ls||{})[dk]||'gym';
+  const notes=document.getElementById('wn-'+dk)?.value||'';
+  data.workouts[dk]={done:true,location:loc,notes:notes,ts:Date.now()};
+  sd(data);renderTracker();confetti();
+}
+function unmarkW(dk){if(!confirm('Ištrinti?'))return;const data=ld();if(data.workouts)delete data.workouts[dk];sd(data);renderTracker();}
+function saveW(dk){
+  const inp=document.getElementById('wi-'+dk);if(!inp||!inp.value)return;
+  const val=parseFloat(inp.value);if(isNaN(val)||val<50||val>150){alert('Neteisingas svoris');return;}
+  const data=ld();if(!data.weights)data.weights={};data.weights[dk]=val;sd(data);renderTracker();initProgress();
+}
+function editW(dk,cur){
+  const nv=prompt('Pakeisti svorį (kg):',cur);if(nv===null)return;
+  const val=parseFloat(nv);if(isNaN(val)||val<50||val>150){alert('Neteisingas');return;}
+  const data=ld();if(!data.weights)data.weights={};data.weights[dk]=val;sd(data);renderTracker();initProgress();
+}
+function chW(d){window._selW=Math.min(12,Math.max(1,(window._selW||getCW())+d));renderTracker();}
+function initTracker(){window._selW=getCW();renderTracker();}
+function getStreak(data){
+  let s=0;const cw=getCW();
+  for(let w=cw;w>=1;w--){
+    const dates=getWD(w);
+    const past=dates.filter(d=>isSport(d.getDay())&&d<new Date());
+    if(!past.length){if(w<cw)break;continue;}
+    if(past.every(d=>data.workouts&&data.workouts[d.toISOString().split('T')[0]]))s++;
+    else if(w<cw)break;
+  }
+  return s;
+}
+
+function renderTracker(){
+  const data=ld();const cw=getCW();const sw=window._selW||cw;window._selW=sw;
+  const dates=getWD(sw);const phase=getPhase(sw);const deload=isDeload(sw);
+  let dHtml='';
+  dates.forEach(date=>{
+    const dow=date.getDay();const dk=date.toISOString().split('T')[0];
+    const done=data.workouts&&data.workouts[dk];
+    const isToday=date.toDateString()===new Date().toDateString();
+    const isTr=isSport(dow);
+    dHtml+=`<div class="tr-day ${isToday?'today-d':''} ${done?'done-d':''}">
+      <div class="tr-date">${fmt(date)}</div>
+      <div class="tr-dname">${DNAMES[dow]}</div>
+      <div class="tr-act">${getActLabel(dow)}</div>`;
+    if(isTr){
+      if(done){
+        dHtml+=`<div class="tr-done-badge">✓ OK</div><div class="tr-loc">${done.location==='home'?'🏠':'🏋️'}</div>
+        <button class="tr-undo" onclick="unmarkW('${dk}')">atšaukti</button>`;
+      } else {
+        dHtml+=`<div class="tr-mark-area">
+          <div class="tr-loc-btns"><button class="tr-loc-btn" id="lg-${dk}" onclick="selLoc('${dk}','gym')">🏋️</button><button class="tr-loc-btn" id="lh-${dk}" onclick="selLoc('${dk}','home')">🏠</button></div>
+          <input class="tr-note" id="wn-${dk}" placeholder="Pastabos..." maxlength="30">
+          <button class="tr-mark-btn" onclick="markW('${dk}')">✓ Atlikta</button>
+        </div>`;
+      }
+    } else {dHtml+=`<div class="tr-walk">🐕</div>`;}
+    dHtml+=`</div>`;
+  });
+  const weekDone=dates.filter(d=>data.workouts&&data.workouts[d.toISOString().split('T')[0]]).length;
+  const totalDone=Object.keys(data.workouts||{}).length;
+  const streak=getStreak(data);
+  const weights=data.weights||{};
+  let wlHtml='';
+  for(let w=1;w<=12;w++){
+    const d=new Date(START);d.setDate(START.getDate()+(w-1)*7);
+    const dk=d.toISOString().split('T')[0];const rec=weights[dk];
+    const isCur=w===sw;const isPast=d<=new Date();const tgt=(87-(w/12)*8).toFixed(1);
+    wlHtml+=`<div class="wl-row ${isCur?'cur':''}">
+      <div class="wl-wk">S${w}</div><div class="wl-dt">${fmt(d)}</div><div class="wl-ph">${getPhase(w)}</div>`;
+    if(rec){
+      const diff=(rec-87).toFixed(1);const col=rec<=87?'var(--accent)':'var(--red)';
+      wlHtml+=`<div class="wl-rec" style="color:${col}">${rec}kg <span style="font-size:10px;opacity:0.6">(${diff>=0?'+':''}${diff})</span></div><button class="wl-edit" onclick="editW('${dk}',${rec})">✏️</button>`;
+    } else if(isPast||isCur){
+      wlHtml+=`<div class="wl-inp-wrap"><input class="wl-inp" id="wi-${dk}" type="number" min="60" max="120" step="0.1" placeholder="kg"><button class="wl-save" onclick="saveW('${dk}')">Saugoti</button></div><div></div>`;
+    } else {wlHtml+=`<div class="wl-future">—</div><div></div>`;}
+    wlHtml+=`</div>`;
+  }
+  // Chart
+  const pts=[];for(let w=1;w<=12;w++){const d=new Date(START);d.setDate(START.getDate()+(w-1)*7);const dk=d.toISOString().split('T')[0];if(weights[dk])pts.push({week:w,val:parseFloat(weights[dk])});}
+  let chartHtml='';
+  if(pts.length>0){
+    const mn=Math.min(...pts.map(p=>p.val),79)-0.5;const mx=Math.max(...pts.map(p=>p.val),87)+0.5;
+    const rng=mx-mn;const W=340,H=100,pd=28;
+    const tx=w=>pd+((w-1)/11)*(W-pd*2);const ty=v=>H-pd-((v-mn)/rng)*(H-pd*2);
+    const tg=Array.from({length:12},(_,i)=>({w:i+1,v:87-(i+1)/12*8})).map((p,i)=>`${i===0?'M':'L'}${tx(p.w)},${ty(p.v)}`).join(' ');
+    const ap=pts.map((p,i)=>`${i===0?'M':'L'}${tx(p.week)},${ty(p.val)}`).join(' ');
+    chartHtml=`<div class="chart-wrap"><div class="chart-lbl">Svorio grafikas</div>
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+      ${[87,83,79].map(v=>`<line x1="${pd}" y1="${ty(v)}" x2="${W-pd}" y2="${ty(v)}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <text x="${pd-4}" y="${ty(v)+4}" fill="#4a4744" font-size="8" text-anchor="end" font-family="JetBrains Mono,monospace">${v}</text>`).join('')}
+      <path d="${tg}" stroke="rgba(200,240,96,0.15)" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+      ${pts.length>1?`<path d="${ap}" stroke="#c8f060" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`:''}
+      ${pts.map(p=>`<circle cx="${tx(p.week)}" cy="${ty(p.val)}" r="3.5" fill="#c8f060"/>
+      <text x="${tx(p.week)}" y="${ty(p.val)-7}" fill="#c8f060" font-size="8" text-anchor="middle" font-family="JetBrains Mono,monospace">${p.val}</text>`).join('')}
+    </svg></div>`;
+  }
+  const phaseColor=deload?'var(--amber)':sw<=3?'var(--accent)':sw<=7?'var(--blue)':'var(--purple)';
+  document.getElementById('tracker-content').innerHTML=`
+  <div class="page-title">Žurnalas</div>
+  <div class="page-sub">Pradžia: 2026-05-25 · Diena ${getDays()}</div>
+  <div class="tr-stats">
+    <div class="tr-stat"><div class="tr-stat-num">${weekDone}</div><div class="tr-stat-lbl">Šią sav.</div></div>
+    <div class="tr-stat"><div class="tr-stat-num">${totalDone}</div><div class="tr-stat-lbl">Iš viso</div></div>
+    <div class="tr-stat"><div class="tr-stat-num">${streak}🔥</div><div class="tr-stat-lbl">Sav. iš eilės</div></div>
+    <div class="tr-stat"><div class="tr-stat-num">${getDays()}</div><div class="tr-stat-lbl">Diena</div></div>
+  </div>
+  <div class="week-nav">
+    <button class="week-nav-btn" onclick="chW(-1)" ${sw<=1?'disabled':''}>‹</button>
+    <div class="week-nav-center"><div class="week-num">Savaitė ${sw} / 12</div><div class="week-phase" style="color:${phaseColor}">${phase}</div></div>
+    <button class="week-nav-btn" onclick="chW(1)" ${sw>=12?'disabled':''}>›</button>
+  </div>
+  <div class="tr-grid">${dHtml}</div>
+  <div class="weight-section">
+    <div class="ws-title">⚖️ Svorio žurnalas</div>
+    <div class="ws-sub">Sveris kiekvieną pirmadienį ryte · 87kg → 79kg</div>
+    <div>${wlHtml}</div>
+    ${chartHtml}
+  </div>`;
+}
+
+
+// ============================================================
+// ZONE 2 — POLAR CSV IMPORT & CHARTS
+// ============================================================
+const Z2_LO=120, Z2_HI=131; // Dovydas Zone 2
+
+function initZone2(){renderZ2();}
+
+function importPolarCSV(input){
+  const file=input.files[0];
+  if(!file)return;
+  const status=document.getElementById('csv-status');
+  status.textContent='Skaitoma...';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const parsed=parsePolarCSV(e.target.result,file.name);
+      if(!parsed){status.style.color='var(--red)';status.textContent='❌ Nepavyko nuskaityti. Įsitikink kad tai Polar CSV.';return;}
+      const data=ld();
+      if(!data.z2sessions)data.z2sessions=[];
+      // Check duplicate by date
+      const exists=data.z2sessions.find(s=>s.date===parsed.date&&s.duration===parsed.duration);
+      if(exists){status.style.color='var(--amber)';status.textContent='⚠️ Ši sesija jau įkelta.';return;}
+      data.z2sessions.push(parsed);
+      data.z2sessions.sort((a,b)=>new Date(a.date)-new Date(b.date));
+      sd(data);
+      status.style.color='var(--accent)';
+      status.textContent=`✅ Įkelta: ${parsed.date} · HR avg ${parsed.hrAvg} bpm · Z2 ${parsed.z2Pct}%`;
+      input.value='';
+      renderZ2();
+    }catch(err){
+      status.style.color='var(--red)';
+      status.textContent='❌ Klaida: '+err.message;
+    }
+  };
+  reader.readAsText(file,'UTF-8');
+}
+
+function parsePolarCSV(text,filename){
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+  if(!lines.length)return null;
+
+  // --- Try to find summary rows (Polar Flow CSV format) ---
+  // Polar CSV has metadata at top, then data rows with Time,HR,Speed,etc.
+  let date='',duration='',hrAvg=0,hrMax=0,distance=0,calories=0,paceAvg=0;
+  let hrReadings=[],z2Seconds=0,totalSeconds=0;
+
+  // Parse metadata lines (key,value format at top)
+  for(let i=0;i<Math.min(30,lines.length);i++){
+    const l=lines[i];
+    if(l.includes('Date,'))continue;
+    const parts=l.split(',');
+    if(parts.length<2)continue;
+    const key=parts[0].toLowerCase().trim();
+    const val=parts[1]?parts[1].trim():'';
+    if(key==='start time'||key==='date')date=val.split(' ')[0]||val;
+    if(key==='duration'||key==='total time')duration=val;
+    if(key==='average hr (bpm)'||key==='average heart rate (bpm)')hrAvg=parseInt(val)||0;
+    if(key==='max hr (bpm)'||key==='maximum heart rate (bpm)')hrMax=parseInt(val)||0;
+    if(key==='total distance (km)'||key==='distance (km)')distance=parseFloat(val)||0;
+    if(key==='calories (kcal)'||key==='energy (kcal)')calories=parseInt(val)||0;
+    if(key==='average speed (km/h)')paceAvg=val?60/parseFloat(val):0;
+    if(key==='average pace (min/km)')paceAvg=parseFloat(val.replace(':','.'))||0;
+  }
+
+  // Parse second-by-second data rows
+  let headerIdx=-1;
+  let hrCol=-1,timeCol=-1,speedCol=-1;
+  for(let i=0;i<lines.length;i++){
+    const low=lines[i].toLowerCase();
+    if((low.includes('time')&&low.includes('hr'))||(low.includes('time')&&low.includes('heart rate'))){
+      headerIdx=i;
+      const cols=lines[i].split(',').map(c=>c.toLowerCase().trim());
+      timeCol=cols.findIndex(c=>c==='time'||c==='timestamp');
+      hrCol=cols.findIndex(c=>c.includes('hr')||c.includes('heart rate'));
+      speedCol=cols.findIndex(c=>c.includes('speed')||c.includes('pace'));
+      break;
+    }
+  }
+
+  if(headerIdx>=0&&hrCol>=0){
+    for(let i=headerIdx+1;i<lines.length;i++){
+      const row=lines[i].split(',');
+      if(!row[hrCol])continue;
+      const hr=parseInt(row[hrCol]);
+      if(isNaN(hr)||hr<30)continue;
+      hrReadings.push(hr);
+      totalSeconds++;
+      if(hr>=Z2_LO&&hr<=Z2_HI)z2Seconds++;
+    }
+    if(hrReadings.length>0){
+      hrAvg=hrAvg||Math.round(hrReadings.reduce((a,b)=>a+b,0)/hrReadings.length);
+      hrMax=hrMax||Math.max(...hrReadings);
+    }
+  }
+
+  // Try to get date from filename if not found
+  if(!date){
+    const m=filename.match(/(\d{4}-\d{2}-\d{2})|(\d{8})/);
+    if(m)date=m[0].length===8?m[0].slice(0,4)+'-'+m[0].slice(4,6)+'-'+m[0].slice(6):m[0];
+  }
+  if(!date)date=new Date().toISOString().split('T')[0];
+
+  const z2Pct=totalSeconds>0?Math.round((z2Seconds/totalSeconds)*100):0;
+  const z2Min=Math.floor(z2Seconds/60);
+  const z2Sec=z2Seconds%60;
+  const z2Time=z2Min+':'+(z2Sec<10?'0':'')+z2Sec;
+
+  // Parse duration string HH:MM:SS or MM:SS
+  if(!duration&&totalSeconds>0){
+    const m=Math.floor(totalSeconds/60),s=totalSeconds%60;
+    duration=(m>=60?Math.floor(m/60)+':'+String(m%60).padStart(2,'0')+':':'')+String(m%60||m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  }
+
+  if(!hrAvg&&hrReadings.length===0)return null;
+
+  return{date,duration,hrAvg,hrMax,distance:parseFloat(distance.toFixed(2)),calories,paceAvg:parseFloat(paceAvg.toFixed(1)),z2Pct,z2Time,z2Seconds,totalSeconds};
+}
+
+function fmtDate(d){
+  const dt=new Date(d+'T12:00:00');
+  return dt.toLocaleDateString('lt-LT',{month:'short',day:'numeric'});
+}
+function fmtPace(p){
+  if(!p)return '—';
+  const m=Math.floor(p);const s=Math.round((p-m)*60);
+  return m+':'+(s<10?'0':'')+s;
+}
+
+function renderZ2(){
+  const data=ld();
+  const sessions=(data.z2sessions||[]);
+  const empty=document.getElementById('z2-empty');
+  const charts=document.getElementById('z2-charts');
+  const statsRow=document.getElementById('z2-stats-row');
+  if(!empty||!charts)return;
+
+  if(sessions.length===0){
+    empty.style.display='block';charts.style.display='none';statsRow.style.display='none';
+    return;
+  }
+  empty.style.display='none';charts.style.display='block';statsRow.style.display='block';
+
+  // Top stats
+  const last=sessions[sessions.length-1];
+  const bestZ2=Math.max(...sessions.map(s=>s.z2Pct));
+  const avgHR=Math.round(sessions.map(s=>s.hrAvg).reduce((a,b)=>a+b,0)/sessions.length);
+  const totalKcal=sessions.map(s=>s.calories).reduce((a,b)=>a+b,0);
+  document.getElementById('z2-top-stats').innerHTML=`
+    <div class="stat-card accent"><div class="stat-lbl">Paskutinis Z2%</div><div class="stat-val-sm">${last.z2Pct}%</div><div class="stat-sub">HR avg ${last.hrAvg}</div></div>
+    <div class="stat-card"><div class="stat-lbl">Geriausias Z2%</div><div class="stat-val-sm">${bestZ2}%</div><div class="stat-sub">${sessions.length} sesijų</div></div>
+    <div class="stat-card"><div class="stat-lbl">Iš viso kcal</div><div class="stat-val-sm">${totalKcal||'—'}</div><div class="stat-sub">ėjimų</div></div>`;
+
+  // Charts
+  drawLineChart('chart-hr', sessions.map(s=>({x:s.date,v:s.hrAvg,target:126})), 'bpm', true);
+  drawBarChart('chart-z2', sessions.map(s=>({x:s.date,v:s.z2Pct,target:90})), '%');
+  drawLineChart('chart-pace', sessions.map(s=>({x:s.date,v:s.paceAvg||0})), 'min/km', false, true);
+  if(sessions.some(s=>s.calories>0))
+    drawBarChart('chart-kcal', sessions.map(s=>({x:s.date,v:s.calories})), 'kcal');
+
+  // Sessions list
+  const listEl=document.getElementById('z2-sessions-list');
+  const sorted=[...sessions].reverse();
+  listEl.innerHTML=sorted.map((s,i)=>{
+    const isBest=s.z2Pct===bestZ2;
+    return`<div class="z2-session-card ${isBest?'best':''}">
+      <div style="min-width:58px">
+        <div class="z2-date">${fmtDate(s.date)}</div>
+        ${isBest?'<span class="z2-badge">🏆 Geriausias</span>':''}
+      </div>
+      <div class="z2-metrics">
+        <div class="z2-metric"><div class="z2-metric-val" style="color:var(--accent)">${s.z2Pct}%</div><div class="z2-metric-lbl">Zone 2</div></div>
+        <div class="z2-metric"><div class="z2-metric-val">${s.hrAvg}</div><div class="z2-metric-lbl">HR avg</div></div>
+        <div class="z2-metric"><div class="z2-metric-val">${s.distance?s.distance+'km':'—'}</div><div class="z2-metric-lbl">Atstumas</div></div>
+        <div class="z2-metric"><div class="z2-metric-val">${fmtPace(s.paceAvg)}</div><div class="z2-metric-lbl">Tempas</div></div>
+        <div class="z2-metric"><div class="z2-metric-val">${s.hrMax||'—'}</div><div class="z2-metric-lbl">HR max</div></div>
+        <div class="z2-metric"><div class="z2-metric-val">${s.calories||'—'}</div><div class="z2-metric-lbl">kcal</div></div>
+      </div>
+      <button class="z2-del" onclick="deleteZ2(${sessions.length-1-i})" title="Ištrinti">🗑</button>
+    </div>`;
+  }).join('');
+}
+
+function deleteZ2(idx){
+  if(!confirm('Ištrinti šią sesiją?'))return;
+  const data=ld();
+  if(data.z2sessions)data.z2sessions.splice(idx,1);
+  sd(data);renderZ2();
+}
+
+// ---- CHART HELPERS ----
+function drawLineChart(id,pts,unit,invertGood,invertAxis){
+  const svg=document.getElementById(id);if(!svg)return;
+  if(pts.length===0){svg.innerHTML='';return;}
+  const W=340,H=110,pl=32,pr=10,pt=18,pb=22;
+  const vals=pts.map(p=>p.v).filter(v=>v>0);
+  if(!vals.length){svg.innerHTML='';return;}
+  let mn=Math.min(...vals)*0.97,mx=Math.max(...vals)*1.03;
+  if(mx-mn<2){mn-=1;mx+=1;}
+  const tx=(i)=>pl+i*(W-pl-pr)/(Math.max(pts.length-1,1));
+  const ty=(v)=>pt+(H-pt-pb)*(1-(v-mn)/(mx-mn));
+  let html='';
+  // Grid
+  const gridVals=[mn,mn+(mx-mn)/2,mx];
+  gridVals.forEach(v=>{
+    const y=ty(v);
+    html+=`<line x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}" class="chart-grid"/>`;
+    html+=`<text x="${pl-4}" y="${y+3}" class="chart-label" text-anchor="end">${Math.round(v)}</text>`;
+  });
+  // Target line
+  if(pts[0]&&pts[0].target){
+    const ty2=ty(pts[0].target);
+    html+=`<line x1="${pl}" y1="${ty2}" x2="${W-pr}" y2="${ty2}" class="chart-target"/>`;
+    html+=`<text x="${W-pr}" y="${ty2-3}" class="chart-label" text-anchor="end" style="fill:rgba(200,240,96,0.4)">↑Z2</text>`;
+  }
+  // Area fill
+  if(pts.length>1){
+    const aPath=pts.map((p,i)=>`${i===0?'M':'L'}${tx(i)},${ty(p.v||mn)}`).join(' ');
+    html+=`<path d="${aPath} L${tx(pts.length-1)},${H-pb} L${tx(0)},${H-pb} Z" fill="rgba(200,240,96,0.06)"/>`;
+    html+=`<path d="${aPath}" class="chart-line"/>`;
+  }
+  // Dots + labels
+  pts.forEach((p,i)=>{
+    if(!p.v)return;
+    const x=tx(i),y=ty(p.v);
+    html+=`<circle cx="${x}" cy="${y}" r="3.5" class="chart-dot"/>`;
+    html+=`<text x="${x}" y="${y-7}" class="chart-dot-val">${Math.round(p.v)}</text>`;
+    if(i===0||i===pts.length-1||pts.length<=5)
+      html+=`<text x="${x}" y="${H-pb+12}" class="chart-label" text-anchor="middle">${fmtDate(p.x)}</text>`;
+  });
+  svg.innerHTML=html;
+}
+
+function drawBarChart(id,pts,unit){
+  const svg=document.getElementById(id);if(!svg)return;
+  if(pts.length===0){svg.innerHTML='';return;}
+  const W=340,H=110,pl=32,pr=10,pt=14,pb=22;
+  const vals=pts.map(p=>p.v).filter(v=>v>0);
+  if(!vals.length){svg.innerHTML='';return;}
+  const mx=Math.max(...vals)*1.1;
+  const bw=Math.max(8,Math.min(30,(W-pl-pr)/pts.length*0.65));
+  const gap=(W-pl-pr)/pts.length;
+  let html='';
+  [0,mx/2,mx].forEach(v=>{
+    const y=pt+(H-pt-pb)*(1-v/mx);
+    html+=`<line x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}" class="chart-grid"/>`;
+    html+=`<text x="${pl-4}" y="${y+3}" class="chart-label" text-anchor="end">${Math.round(v)}</text>`;
+  });
+  if(pts[0]&&pts[0].target){
+    const ty=pt+(H-pt-pb)*(1-pts[0].target/mx);
+    html+=`<line x1="${pl}" y1="${ty}" x2="${W-pr}" y2="${ty}" class="chart-target"/>`;
+  }
+  pts.forEach((p,i)=>{
+    if(!p.v)return;
+    const x=pl+i*gap+gap/2-bw/2;
+    const barH=(H-pt-pb)*(p.v/mx);
+    const y=H-pb-barH;
+    const isLast=i===pts.length-1;
+    html+=`<rect x="${x}" y="${y}" width="${bw}" height="${barH}" rx="3" fill="${isLast?'var(--accent)':'rgba(200,240,96,0.45)'}"/>`;
+    html+=`<text x="${x+bw/2}" y="${y-4}" class="chart-dot-val">${Math.round(p.v)}</text>`;
+    if(i===0||i===pts.length-1||pts.length<=5)
+      html+=`<text x="${x+bw/2}" y="${H-pb+12}" class="chart-label" text-anchor="middle">${fmtDate(p.x)}</text>`;
+  });
+  svg.innerHTML=html;
+}
+
+  initHeader();initTodayBanner();initWeekStrip();initProgress();
+});
+</script>
+</body>
+</html>
