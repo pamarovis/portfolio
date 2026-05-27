@@ -965,6 +965,9 @@ SB.auth.onAuthStateChange(async(ev,session)=>{
   if(ev==='PASSWORD_RECOVERY'){_showPassReset();return;}
   if(session?.user){
     _sbUser=session.user;
+    // Clean access_token from URL bar
+    if(window.location.hash.includes('access_token'))
+      history.replaceState(null,'',window.location.pathname);
     document.getElementById('auth-overlay').style.display='none';
     const el=document.getElementById('sync-email');
     if(el)el.textContent=_sbUser.email;
