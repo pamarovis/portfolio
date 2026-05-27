@@ -928,7 +928,33 @@ async function doLogin(){
   if(error){er.textContent='❌ '+error.message;bt.textContent='Prisijungti';bt.disabled=false;}
 }
 async function doLogout(){if(confirm('Atsijungti?')){await SB.auth.signOut();location.reload();}}
+function _showPassReset(){
+  const wrap=document.querySelector('#auth-overlay .auth-wrap');
+  wrap.innerHTML=`
+    <div class="auth-logo">D</div>
+    <div class="auth-title">Naujas slaptažodis</div>
+    <div class="auth-sub">Įvesk naują slaptažodį</div>
+    <input class="auth-input" type="password" id="new-pass" placeholder="Naujas slaptažodis (min. 6)" autocomplete="new-password">
+    <input class="auth-input" type="password" id="new-pass2" placeholder="Pakartok slaptažodį" autocomplete="new-password">
+    <button class="auth-btn-main" onclick="doSetPass()">Nustatyti slaptažodį</button>
+    <div id="auth-err"></div>`;
+  document.getElementById('auth-overlay').style.display='flex';
+}
+async function doSetPass(){
+  const p1=document.getElementById('new-pass').value;
+  const p2=document.getElementById('new-pass2').value;
+  const er=document.getElementById('auth-err');
+  const bt=document.querySelector('.auth-btn-main');
+  if(p1!==p2){er.textContent='Slaptažodžiai nesutampa';return;}
+  if(p1.length<6){er.textContent='Per trumpas — min. 6 simboliai';return;}
+  bt.textContent='Saugoma…';bt.disabled=true;
+  const{error}=await SB.auth.updateUser({password:p1});
+  if(error){er.textContent='❌ '+error.message;bt.textContent='Nustatyti';bt.disabled=false;return;}
+  er.style.color='var(--accent)';er.textContent='✅ Slaptažodis nustatytas!';
+  setTimeout(()=>location.reload(),1500);
+}
 SB.auth.onAuthStateChange(async(ev,session)=>{
+  if(ev==='PASSWORD_RECOVERY'){_showPassReset();return;}
   if(session?.user){
     _sbUser=session.user;
     document.getElementById('auth-overlay').style.display='none';
@@ -939,7 +965,7 @@ SB.auth.onAuthStateChange(async(ev,session)=>{
   } else {
     _sbUser=null;
     const o=document.getElementById('auth-overlay');
-    if(o){o.style.display='flex';}
+    if(o)o.style.display='flex';
   }
 });
 function todayKey(){return new Date().toISOString().split('T')[0];}
