@@ -2,7 +2,7 @@
 <html lang="lt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Dovydas">
@@ -449,6 +449,23 @@ body{
 .sync-info strong{color:var(--text);font-size:12px;}
 .logout-btn{background:transparent;border:1px solid var(--border2);border-radius:8px;padding:7px 14px;font-size:13px;color:var(--text2);cursor:pointer;font-family:inherit;white-space:nowrap;}
 .logout-btn:active{opacity:0.7;}
+/* === DESKTOP === */
+@media(min-width:600px){
+  body{max-width:520px;margin:0 auto;box-shadow:0 0 80px rgba(0,0,0,0.4);}
+  .top-header{width:520px;left:50%;transform:translateX(-50%);}
+  .bottom-nav{width:520px;left:50%;transform:translateX(-50%);}
+  .status-bar{width:520px;left:50%;transform:translateX(-50%);}
+  #auth-overlay{background:rgba(0,0,0,0.7);}
+}
+/* === ZONE2 ENHANCED === */
+.act-badge{display:inline-flex;align-items:center;gap:5px;background:var(--bg4);border:1px solid var(--border);border-radius:100px;padding:3px 10px;font-size:12px;font-weight:600;margin-bottom:8px;}
+.z2-zones-bar{display:flex;height:9px;border-radius:5px;overflow:hidden;margin:8px 0 4px;gap:1px;}
+.z2-zone-seg{height:100%;min-width:2px;border-radius:1px;}
+.z2-zone-legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:4px;}
+.z2-zone-litem{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);}
+.z2-zone-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.z2-week-chart{padding:10px 10px 0;}
+.vol-chart-wrap{background:var(--bg2);border-radius:var(--r2);padding:12px 10px;margin-bottom:12px;}
 </style>
 </head>
 <body>
@@ -770,10 +787,17 @@ body{
 
   <!-- GRAFIKAI -->
   <div id="z2-charts" style="display:none">
+
+    <div class="section-label">Savaitinis Zone 2 tūris (min)</div>
+    <div class="vol-chart-wrap">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Tikslas: Zone 2 minutės auga savaitę po savaitės ✓</div>
+      <svg id="chart-vol" viewBox="0 0 340 90" style="width:100%;height:auto"></svg>
+    </div>
+
     <div class="section-label">HR avg progresas</div>
     <div class="card" style="margin-bottom:12px">
       <div class="card-body" style="padding:12px 10px">
-        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Tikslas: HR avg mažėja — tai reiškia kūnas adaptuojasi ✓</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Tikslas: HR avg mažėja — kūnas adaptuojasi ✓</div>
         <svg id="chart-hr" viewBox="0 0 340 110" style="width:100%;height:auto"></svg>
       </div>
     </div>
@@ -1231,7 +1255,15 @@ function renderTracker(){
 // ============================================================
 // ZONE 2 — POLAR CSV IMPORT & CHARTS
 // ============================================================
-const Z2_LO=120, Z2_HI=131; // Dovydas Zone 2
+const Z2_LO=120, Z2_HI=131;
+// Dovydas HR zones
+const HR_ZONES=[
+  {id:'Z1',lo:0,  hi:119,label:'Z1 Atsigavimas',color:'#5bb8f5'},
+  {id:'Z2',lo:120,hi:131,label:'Z2 Aerobinė bazė',color:'#c8f060'},
+  {id:'Z3',lo:132,hi:145,label:'Z3 Aerobinė',color:'#f5a623'},
+  {id:'Z4',lo:146,hi:160,label:'Z4 Slenkstis',color:'#ff4f4f'},
+  {id:'Z5',lo:161,hi:999,label:'Z5 VO2max',color:'#a78bfa'},
+];
 
 function initZone2(){renderZ2();}
 
@@ -1273,6 +1305,7 @@ function parsePolarCSV(text,filename){
   // Polar CSV has metadata at top, then data rows with Time,HR,Speed,etc.
   let date='',duration='',hrAvg=0,hrMax=0,distance=0,calories=0,paceAvg=0;
   let hrReadings=[],z2Seconds=0,totalSeconds=0;
+  const zoneSec={Z1:0,Z2:0,Z3:0,Z4:0,Z5:0};
 
   // Parse metadata lines (key,value format at top)
   for(let i=0;i<Math.min(30,lines.length);i++){
@@ -1316,6 +1349,8 @@ function parsePolarCSV(text,filename){
       hrReadings.push(hr);
       totalSeconds++;
       if(hr>=Z2_LO&&hr<=Z2_HI)z2Seconds++;
+      const hz=HR_ZONES.find(z=>hr>=z.lo&&hr<=z.hi);
+      if(hz)zoneSec[hz.id]=(zoneSec[hz.id]||0)+1;
     }
     if(hrReadings.length>0){
       hrAvg=hrAvg||Math.round(hrReadings.reduce((a,b)=>a+b,0)/hrReadings.length);
@@ -1343,7 +1378,10 @@ function parsePolarCSV(text,filename){
 
   if(!hrAvg&&hrReadings.length===0)return null;
 
-  return{date,duration,hrAvg,hrMax,distance:parseFloat(distance.toFixed(2)),calories,paceAvg:parseFloat(paceAvg.toFixed(1)),z2Pct,z2Time,z2Seconds,totalSeconds};
+  // Activity type: walking if slow pace and low HR
+  const actType=(paceAvg>=9.5&&hrAvg<=135)?'walk':'run';
+
+  return{date,duration,hrAvg,hrMax,distance:parseFloat(distance.toFixed(2)),calories,paceAvg:parseFloat(paceAvg.toFixed(1)),z2Pct,z2Time,z2Seconds,totalSeconds,zoneSec,actType};
 }
 
 function fmtDate(d){
@@ -1356,6 +1394,26 @@ function fmtPace(p){
   return m+':'+(s<10?'0':'')+s;
 }
 
+function fmtZ2Min(sec){const m=Math.round((sec||0)/60);return m+'min';}
+function getWeekKey(dateStr){
+  const d=new Date(dateStr+'T12:00:00');
+  const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);
+  const mon=new Date(d.setDate(diff));return mon.toISOString().split('T')[0];
+}
+function renderZoneBars(zoneSec,totalSec){
+  if(!zoneSec||!totalSec)return'';
+  const bars=HR_ZONES.map(z=>{
+    const pct=totalSec>0?Math.round(((zoneSec[z.id]||0)/totalSec)*100):0;
+    return`<div class="z2-zone-seg" style="width:${pct}%;background:${z.color}" title="${z.label}: ${pct}%"></div>`;
+  }).join('');
+  const legend=HR_ZONES.map(z=>{
+    const pct=totalSec>0?Math.round(((zoneSec[z.id]||0)/totalSec)*100):0;
+    if(pct===0)return'';
+    return`<div class="z2-zone-litem"><div class="z2-zone-dot" style="background:${z.color}"></div><span>${z.id} ${pct}%</span></div>`;
+  }).join('');
+  return`<div class="z2-zones-bar">${bars}</div><div class="z2-zone-legend">${legend}</div>`;
+}
+
 function renderZ2(){
   const data=ld();
   const sessions=(data.z2sessions||[]);
@@ -1365,47 +1423,67 @@ function renderZ2(){
   if(!empty||!charts)return;
 
   if(sessions.length===0){
-    empty.style.display='block';charts.style.display='none';statsRow.style.display='none';
+    empty.style.display='block';charts.style.display='none';if(statsRow)statsRow.style.display='none';
     return;
   }
-  empty.style.display='none';charts.style.display='block';statsRow.style.display='block';
+  empty.style.display='none';charts.style.display='block';if(statsRow)statsRow.style.display='block';
 
-  // Top stats
   const last=sessions[sessions.length-1];
   const bestZ2=Math.max(...sessions.map(s=>s.z2Pct));
-  const avgHR=Math.round(sessions.map(s=>s.hrAvg).reduce((a,b)=>a+b,0)/sessions.length);
-  const totalKcal=sessions.map(s=>s.calories).reduce((a,b)=>a+b,0);
-  document.getElementById('z2-top-stats').innerHTML=`
-    <div class="stat-card accent"><div class="stat-lbl">Paskutinis Z2%</div><div class="stat-val-sm">${last.z2Pct}%</div><div class="stat-sub">HR avg ${last.hrAvg}</div></div>
-    <div class="stat-card"><div class="stat-lbl">Geriausias Z2%</div><div class="stat-val-sm">${bestZ2}%</div><div class="stat-sub">${sessions.length} sesijų</div></div>
-    <div class="stat-card"><div class="stat-lbl">Iš viso kcal</div><div class="stat-val-sm">${totalKcal||'—'}</div><div class="stat-sub">ėjimų</div></div>`;
+  const totalZ2Min=Math.round(sessions.reduce((a,s)=>a+(s.z2Seconds||0),0)/60);
+  const totalKcal=sessions.reduce((a,s)=>a+(s.calories||0),0);
 
-  // Charts
-  drawLineChart('chart-hr', sessions.map(s=>({x:s.date,v:s.hrAvg,target:126})), 'bpm', true);
-  drawBarChart('chart-z2', sessions.map(s=>({x:s.date,v:s.z2Pct,target:90})), '%');
-  drawLineChart('chart-pace', sessions.map(s=>({x:s.date,v:s.paceAvg||0})), 'min/km', false, true);
+  // Top stats
+  const statsEl=document.getElementById('z2-top-stats');
+  if(statsEl)statsEl.innerHTML=`
+    <div class="stat-card accent"><div class="stat-lbl">Z2 minutės</div><div class="stat-val-sm">${totalZ2Min}</div><div class="stat-sub">${sessions.length} ses.</div></div>
+    <div class="stat-card"><div class="stat-lbl">Geriausias Z2%</div><div class="stat-val-sm">${bestZ2}%</div><div class="stat-sub">tikslas 90%+</div></div>
+    <div class="stat-card"><div class="stat-lbl">Kalorijos</div><div class="stat-val-sm">${totalKcal||'—'}</div><div class="stat-sub">iš viso</div></div>`;
+
+  // Weekly volume chart
+  const weekMap={};
+  sessions.forEach(s=>{
+    const wk=getWeekKey(s.date);
+    if(!weekMap[wk])weekMap[wk]=0;
+    weekMap[wk]+=Math.round((s.z2Seconds||0)/60);
+  });
+  const weekPts=Object.keys(weekMap).sort().map(wk=>({x:wk,v:weekMap[wk]}));
+  drawBarChart('chart-vol',weekPts,'min');
+
+  // Other charts
+  drawLineChart('chart-hr',sessions.map(s=>({x:s.date,v:s.hrAvg,target:126})),'bpm',true);
+  drawBarChart('chart-z2',sessions.map(s=>({x:s.date,v:s.z2Pct,target:90})),'%');
+  drawLineChart('chart-pace',sessions.map(s=>({x:s.date,v:s.paceAvg||0})),'min/km',false,true);
   if(sessions.some(s=>s.calories>0))
-    drawBarChart('chart-kcal', sessions.map(s=>({x:s.date,v:s.calories})), 'kcal');
+    drawBarChart('chart-kcal',sessions.map(s=>({x:s.date,v:s.calories})),'kcal');
 
   // Sessions list
   const listEl=document.getElementById('z2-sessions-list');
   const sorted=[...sessions].reverse();
   listEl.innerHTML=sorted.map((s,i)=>{
     const isBest=s.z2Pct===bestZ2;
+    const isWalk=s.actType==='walk'||(!s.actType&&s.paceAvg>=9.5);
+    const actLabel=isWalk?'🚶 Ėjimas':'🏃 Bėgimas';
+    const origIdx=sessions.length-1-i;
+    const zoneBars=s.zoneSec?renderZoneBars(s.zoneSec,s.totalSeconds):'';
     return`<div class="z2-session-card ${isBest?'best':''}">
-      <div style="min-width:58px">
-        <div class="z2-date">${fmtDate(s.date)}</div>
-        ${isBest?'<span class="z2-badge">🏆 Geriausias</span>':''}
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div>
+          <div class="z2-date">${fmtDate(s.date)}</div>
+          <span class="act-badge">${actLabel}</span>
+          ${isBest?'<span class="z2-badge" style="margin-left:4px">🏆 Best</span>':''}
+        </div>
+        <button class="z2-del" onclick="deleteZ2(${origIdx})" title="Ištrinti">🗑</button>
       </div>
       <div class="z2-metrics">
         <div class="z2-metric"><div class="z2-metric-val" style="color:var(--accent)">${s.z2Pct}%</div><div class="z2-metric-lbl">Zone 2</div></div>
+        <div class="z2-metric"><div class="z2-metric-val">${fmtZ2Min(s.z2Seconds)}</div><div class="z2-metric-lbl">Z2 laikas</div></div>
         <div class="z2-metric"><div class="z2-metric-val">${s.hrAvg}</div><div class="z2-metric-lbl">HR avg</div></div>
+        <div class="z2-metric"><div class="z2-metric-val">${s.hrMax||'—'}</div><div class="z2-metric-lbl">HR max</div></div>
         <div class="z2-metric"><div class="z2-metric-val">${s.distance?s.distance+'km':'—'}</div><div class="z2-metric-lbl">Atstumas</div></div>
         <div class="z2-metric"><div class="z2-metric-val">${fmtPace(s.paceAvg)}</div><div class="z2-metric-lbl">Tempas</div></div>
-        <div class="z2-metric"><div class="z2-metric-val">${s.hrMax||'—'}</div><div class="z2-metric-lbl">HR max</div></div>
-        <div class="z2-metric"><div class="z2-metric-val">${s.calories||'—'}</div><div class="z2-metric-lbl">kcal</div></div>
       </div>
-      <button class="z2-del" onclick="deleteZ2(${sessions.length-1-i})" title="Ištrinti">🗑</button>
+      ${zoneBars?`<div style="margin-top:8px">${zoneBars}</div>`:''}
     </div>`;
   }).join('');
 }
@@ -1494,7 +1572,6 @@ function drawBarChart(id,pts,unit){
 }
 
   initHeader();initTodayBanner();initWeekStrip();initProgress();
-});
 </script>
 </body>
 </html>
