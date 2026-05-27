@@ -451,11 +451,13 @@ body{
 .logout-btn:active{opacity:0.7;}
 /* === DESKTOP === */
 @media(min-width:600px){
-  body{max-width:520px;margin:0 auto;box-shadow:0 0 80px rgba(0,0,0,0.4);}
-  .top-header{width:520px;left:50%;transform:translateX(-50%);}
-  .bottom-nav{width:520px;left:50%;transform:translateX(-50%);}
-  .status-bar{width:520px;left:50%;transform:translateX(-50%);}
-  #auth-overlay{background:rgba(0,0,0,0.7);}
+  :root{--app-w:520px;}
+  html{background:#000;}
+  body{max-width:var(--app-w);margin:0 auto;box-shadow:0 0 100px rgba(0,0,0,0.6);min-height:100vh;}
+  .top-header{width:var(--app-w);}
+  .bottom-nav{width:var(--app-w);left:50%;right:auto;transform:translateX(-50%);}
+  .status-bar{width:var(--app-w);left:50%;right:auto;transform:translateX(-50%);}
+  #auth-overlay{background:rgba(0,0,0,0.8);}
 }
 /* === ZONE2 ENHANCED === */
 .act-badge{display:inline-flex;align-items:center;gap:5px;background:var(--bg4);border:1px solid var(--border);border-radius:100px;padding:3px 10px;font-size:12px;font-weight:600;margin-bottom:8px;}
@@ -927,7 +929,7 @@ async function doLogin(){
   const{error}=await SB.auth.signInWithPassword({email:em,password:pw});
   if(error){er.textContent='❌ '+error.message;bt.textContent='Prisijungti';bt.disabled=false;}
 }
-async function doLogout(){if(confirm('Atsijungti?')){await SB.auth.signOut();location.reload();}}
+async function doLogout(){await SB.auth.signOut();location.reload();}
 function _showPassReset(){
   const wrap=document.querySelector('#auth-overlay .auth-wrap');
   wrap.innerHTML=`
