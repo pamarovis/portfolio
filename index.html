@@ -3,555 +3,846 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ✅ SEO: Canonical URL – išsprendžia duplikato problemą -->
-<link rel="canonical" href="https://dangauskadras.lt/">
-
-<!-- ✅ SEO: Meta aprašymas ir raktažodžiai -->
-<title>Dangaus Kadras – NT Oro Fotografija Lietuvoje</title>
-<meta name="description" content="Profesionali dronų fotografija nekilnojamajam turtui Lietuvoje. Aukštos kokybės oro nuotraukos ir 4K video – pristatome per 24 val. Daugiau nei 200 NT objektų.">
-<meta name="keywords" content="NT fotografija, oro fotografija, dronų fotografija, nekilnojamasis turtas, aerial photography, Lietuva, dangaus kadras">
-<meta name="author" content="Dangaus Kadras">
-
-<!-- ✅ SEO: Robots direktyva – leidžia indeksuoti -->
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-<meta name="googlebot" content="index, follow">
-
-<!-- ✅ SEO: Open Graph (Facebook / LinkedIn) -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://dangauskadras.lt/">
-<meta property="og:title" content="Dangaus Kadras – NT Oro Fotografija">
-<meta property="og:description" content="Profesionali dronų fotografija nekilnojamajam turtui Lietuvoje. Oro nuotraukos ir 4K video – pristatome per 24 val.">
-<meta property="og:image" content="https://dangauskadras.lt/hero.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="lt_LT">
-<meta property="og:site_name" content="Dangaus Kadras">
-
-<!-- ✅ SEO: Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Dangaus Kadras – NT Oro Fotografija">
-<meta name="twitter:description" content="Profesionali dronų fotografija nekilnojamajam turtui Lietuvoje.">
-<meta name="twitter:image" content="https://dangauskadras.lt/hero.jpg">
-
-<!-- ✅ SEO: Sitemap nuoroda -->
-<link rel="sitemap" type="application/xml" href="https://dangauskadras.lt/sitemap.xml">
-
-<!-- ✅ SEO: Struktūriniai duomenys (Google žinių grafikas) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Dangaus Kadras",
-  "description": "Profesionali dronų fotografija nekilnojamajam turtui Lietuvoje",
-  "url": "https://dangauskadras.lt",
-  "email": "info@dangauskadras.lt",
-  "areaServed": {
-    "@type": "Country",
-    "name": "Lietuva"
-  },
-  "serviceType": ["NT oro fotografija", "Oro video", "Dronų fotografija"],
-  "image": "https://dangauskadras.lt/hero.jpg",
-  "priceRange": "€€",
-  "knowsLanguage": "lt"
-}
-</script>
-
+<title>Dangaus Kadras – NT Oro Fotografija</title>
+<meta name="description" content="Profesionali NT dronų fotografija ir video Lietuvoje. Aukštos raiškos oro nuotraukos ir 4K video nekilnojamajam turtui.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D42B2B'/><text x='16' y='22' text-anchor='middle' fill='white' font-family='sans-serif' font-size='13' font-weight='700'>DK</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="hero.webp" type="image/webp">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --red: #D42B2B;
-    --dark: #1a1a1a;
-    --mid: #555;
-    --light: #f8f7f5;
-    --border: #e2dfd9;
-    --white: #ffffff;
+/* ============ TOKENS ============ */
+:root {
+  --ink: #141413;
+  --paper: #FAFAF7;
+  --grey: #6E6E68;
+  --line: #E5E3DC;
+  --red: #D42B2B;
+  --night: #101012;
+  --night-soft: #1A1A1E;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+::selection { background: var(--red); color: #fff; }
+
+/* ============ CUSTOM CURSOR (desktop only) ============ */
+@media (pointer: fine) {
+  body.has-cursor, body.has-cursor a, body.has-cursor button,
+  body.has-cursor input, body.has-cursor select, body.has-cursor textarea,
+  body.has-cursor label { cursor: none; }
+  .cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none;
+    border-radius: 50%; z-index: 9999; transform: translate(-50%,-50%);
   }
-  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); font-size: 16px; line-height: 1.7; cursor: none; }
-
-  .cursor { width: 8px; height: 8px; background: var(--red); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; transform: translate(-50%, -50%); }
-  .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--red); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.3s ease; transform: translate(-50%, -50%); opacity: 0.6; }
-  @media (hover: none), (pointer: coarse) { body { cursor: auto; } .cursor, .cursor-ring { display: none; } }
-
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(255,255,255,0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); transition: padding 0.3s ease; }
-  nav.scrolled { padding: 0.85rem 3rem; }
-  .nav-logo img { height: 34px; display: block; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; font-weight: 400; }
-  .nav-links a:hover { color: var(--red); }
-
-  .hero { height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
-  .hero-text { display: flex; flex-direction: column; justify-content: center; padding: 8rem 5rem 5rem 5rem; background: var(--white); position: relative; }
-  .hero-text::after { content: ''; position: absolute; right: 0; top: 15%; bottom: 15%; width: 1px; background: var(--border); }
-  .hero-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; font-weight: 500; display: flex; align-items: center; gap: 0.75rem; }
-  .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--red); display: block; }
-  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 5vw, 5.5rem); font-weight: 300; line-height: 1.05; color: var(--dark); margin-bottom: 1.5rem; }
-  .hero-title em { font-style: italic; color: var(--red); }
-  .hero-desc { font-size: 15px; color: var(--mid); max-width: 380px; margin-bottom: 3rem; line-height: 1.8; font-weight: 300; }
-  .hero-cta { display: inline-flex; align-items: center; gap: 0.75rem; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--dark); padding: 1rem 2rem; text-decoration: none; font-weight: 400; transition: background 0.2s, gap 0.2s; width: fit-content; }
-  .hero-cta:hover { background: var(--red); gap: 1.25rem; }
-  .hero-cta svg { width: 16px; height: 16px; }
-  .hero-visual { position: relative; overflow: hidden; background: var(--dark); }
-  .hero-counter { position: absolute; bottom: 2rem; left: 2rem; color: rgba(255,255,255,0.35); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
-
-  .about { display: grid; grid-template-columns: 1fr 1fr; min-height: 70vh; border-top: 1px solid var(--border); }
-  .about-visual { background: var(--light); position: relative; overflow: hidden; min-height: 500px; }
-  .about-label { position: absolute; top: 2.5rem; right: -2.5rem; background: var(--red); color: var(--white); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.5rem 1rem; transform: rotate(90deg); font-weight: 500; }
-  .about-content { display: flex; flex-direction: column; justify-content: center; padding: 5rem; border-left: 1px solid var(--border); }
-
-  .section-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1.25rem; font-weight: 500; display: flex; align-items: center; gap: 0.75rem; }
-  .section-label::before { content: ''; width: 24px; height: 1px; background: var(--red); display: block; }
-  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.25rem, 3vw, 3.25rem); font-weight: 300; line-height: 1.15; margin-bottom: 1.5rem; color: var(--dark); }
-  .about-text { font-size: 15px; color: var(--mid); line-height: 1.9; font-weight: 300; max-width: 440px; margin-bottom: 2.5rem; }
-  .stats { display: flex; gap: 3rem; border-top: 1px solid var(--border); padding-top: 2rem; }
-  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.75rem; font-weight: 300; color: var(--dark); line-height: 1; }
-  .stat-num span { color: var(--red); }
-  .stat-label { font-size: 12px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; font-weight: 400; }
-
-  .gallery { padding: 6rem 3rem; background: var(--light); border-top: 1px solid var(--border); }
-  .gallery-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
-  .gallery-header .section-title { margin-bottom: 0; }
-  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 200px; gap: 12px; max-width: 1200px; margin: 0 auto; }
-  .gallery-item { overflow: hidden; cursor: pointer; position: relative; background: var(--dark); }
-  .gallery-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
-  .gallery-item:nth-child(2) { grid-column: span 5; grid-row: span 1; }
-  .gallery-item:nth-child(3) { grid-column: span 5; grid-row: span 1; }
-  .gallery-item:nth-child(4) { grid-column: span 4; grid-row: span 2; }
-  .gallery-item:nth-child(5) { grid-column: span 4; grid-row: span 2; }
-  .gallery-item:nth-child(6) { grid-column: span 4; grid-row: span 2; }
-  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.3s ease; filter: grayscale(10%); }
-  .gallery-item:hover img { transform: scale(1.06); filter: grayscale(0%); }
-
-  .video-section { padding: 6rem 3rem; border-top: 1px solid var(--border); background: var(--light); }
-  .video-section-inner { max-width: 1200px; margin: 0 auto; }
-  .video-section-header { margin-bottom: 3rem; }
-  .video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-  .video-item { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-  .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-  @media (max-width: 768px) { .video-grid { grid-template-columns: 1fr; } }
-
-  .services { padding: 6rem 3rem; border-top: 1px solid var(--border); }
-  .services-inner { max-width: 1200px; margin: 0 auto; }
-  .services-header { text-align: center; margin-bottom: 4rem; }
-  .services-header .section-label { justify-content: center; }
-  .services-header .section-label::before { display: none; }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); }
-  .service-card { padding: 3rem 2.5rem; border-right: 1px solid var(--border); position: relative; transition: background 0.3s; }
-  .service-card:last-child { border-right: none; }
-  .service-card:hover { background: var(--light); }
-  .service-num { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; color: var(--border); line-height: 1; margin-bottom: 1.5rem; transition: color 0.3s; }
-  .service-card:hover .service-num { color: var(--red); opacity: 0.3; }
-  .service-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1rem; color: var(--dark); }
-  .service-desc { font-size: 14px; color: var(--mid); line-height: 1.8; font-weight: 300; }
-
-  .contact { background: var(--dark); padding: 6rem 3rem; border-top: 1px solid #333; }
-  .contact-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-  .contact-text .section-label { color: rgba(255,255,255,0.4); }
-  .contact-text .section-label::before { background: rgba(255,255,255,0.2); }
-  .contact-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 300; color: var(--white); line-height: 1.1; margin-bottom: 1.5rem; }
-  .contact-title em { font-style: italic; color: var(--red); }
-  .contact-info { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
-  .contact-info-item { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.6); font-size: 14px; text-decoration: none; transition: color 0.2s; font-weight: 300; }
-  .contact-info-item:hover { color: var(--white); }
-  .contact-info-icon { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color 0.2s, background 0.2s; }
-  .contact-info-item:hover .contact-info-icon { border-color: var(--red); background: var(--red); }
-  .contact-info-icon svg { width: 14px; height: 14px; }
-  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
-  .form-field label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.35); font-weight: 400; }
-  .form-field input, .form-field textarea, .form-field select { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: var(--white); padding: 0.85rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; outline: none; transition: border-color 0.2s; width: 100%; resize: none; }
-  .form-field input::placeholder, .form-field textarea::placeholder { color: rgba(255,255,255,0.2); }
-  .form-field input:focus, .form-field textarea:focus, .form-field select:focus { border-color: var(--red); }
-  .form-field select option { background: var(--dark); }
-  .form-field textarea { height: 110px; }
-  .submit-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem 2rem; background: var(--red); color: var(--white); border: none; font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, gap 0.2s; font-weight: 400; margin-top: 0.5rem; }
-  .submit-btn:hover { background: #b82222; gap: 1.25rem; }
-  .submit-btn svg { width: 15px; height: 15px; }
-
-  footer { background: #111; padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); }
-  .footer-logo img { height: 28px; display: block; mix-blend-mode: screen; }
-  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); font-weight: 300; }
-
-  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 200; align-items: center; justify-content: center; cursor: none; }
-  .lightbox.open { display: flex; }
-  .lightbox-close { position: absolute; top: 2rem; right: 2rem; color: rgba(255,255,255,0.5); font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: color 0.2s; font-family: 'DM Sans', sans-serif; background: none; border: none; font-weight: 400; }
-  .lightbox-close:hover { color: var(--white); }
-
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  picture { display: contents; }
-
-  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 101; position: relative; }
-  .hamburger span { width: 22px; height: 1.5px; background: var(--dark); display: block; transition: all 0.3s ease; }
-  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
-
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; height: auto; }
-    .hero-text { padding: 7rem 2rem 3rem; }
-    .hero-text::after { display: none; }
-    .hero-visual { height: 60vw; }
-    .about { grid-template-columns: 1fr; }
-    .about-visual { min-height: 320px; }
-    .about-content { padding: 3rem 2rem; border-left: none; border-top: 1px solid var(--border); }
-    .gallery { padding: 4rem 1.5rem; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
-    .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; }
-    .services { padding: 4rem 1.5rem; }
-    .services-grid { grid-template-columns: 1fr; }
-    .service-card { border-right: none; border-bottom: 1px solid var(--border); }
-    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-    nav { padding: 1rem 1.5rem; }
-    .hamburger { display: flex; }
-    .nav-links { display: none; position: fixed; inset: 0; background: var(--white); flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; z-index: 100; }
-    .nav-links.open { display: flex; }
-    .nav-links a { font-size: 1.1rem; }
-    .gallery-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-    .form-row { grid-template-columns: 1fr; }
+  .cursor-dot { width: 7px; height: 7px; background: var(--red); }
+  .cursor-ring {
+    width: 34px; height: 34px; border: 1px solid var(--red); opacity: .55;
+    transition: width .25s ease, height .25s ease, opacity .25s ease, border-color .25s ease;
   }
+  .cursor-ring.is-hover { width: 56px; height: 56px; opacity: .9; }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}
+
+/* ============ ALTITUDE TELEMETRY (signature) ============ */
+.telemetry {
+  position: fixed; right: 1.6rem; top: 50%; transform: translateY(-50%);
+  z-index: 90; display: flex; flex-direction: column; align-items: center; gap: .9rem;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em;
+  color: var(--grey); mix-blend-mode: difference; filter: invert(0);
+  pointer-events: none;
+}
+.telemetry .alt-readout { color: #fff; mix-blend-mode: difference; writing-mode: vertical-rl; }
+.telemetry .alt-track {
+  width: 1px; height: 110px; background: rgba(255,255,255,.45);
+  position: relative; mix-blend-mode: difference;
+}
+.telemetry .alt-marker {
+  position: absolute; left: 50%; transform: translate(-50%,0);
+  width: 9px; height: 9px; border-radius: 50%; background: var(--red);
+  top: 0;
+}
+@media (max-width: 900px) { .telemetry { display: none; } }
+
+/* ============ NAV ============ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 3rem;
+  background: rgba(250,250,247,.85);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: padding .35s ease, border-color .35s ease, background .35s ease;
+}
+nav.scrolled { padding: .8rem 3rem; border-color: var(--line); }
+.nav-logo { display: block; }
+.nav-logo img { height: 34px; transition: height .35s ease; }
+nav.scrolled .nav-logo img { height: 28px; }
+.nav-links { display: flex; gap: 2.4rem; list-style: none; align-items: center; }
+.nav-links a {
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: none; color: var(--ink); font-weight: 400;
+  position: relative; padding: .2rem 0;
+}
+.nav-links a::after {
+  content: ''; position: absolute; left: 0; bottom: 0; height: 1px; width: 0;
+  background: var(--red); transition: width .25s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-burger { display: none; background: none; border: none; width: 40px; height: 40px; position: relative; z-index: 110; }
+.nav-burger span {
+  display: block; width: 22px; height: 1.5px; background: var(--ink);
+  margin: 5px auto; transition: transform .3s ease, opacity .3s ease;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.4rem; }
+  nav.scrolled { padding: .7rem 1.4rem; }
+  .nav-burger { display: block; }
+  .nav-links {
+    position: fixed; inset: 0; background: var(--paper);
+    flex-direction: column; justify-content: center; gap: 2rem;
+    transform: translateX(100%); transition: transform .4s cubic-bezier(.7,0,.3,1);
+    z-index: 105;
+  }
+  .nav-links.open { transform: translateX(0); }
+  .nav-links a { font-size: 16px; }
+}
+
+/* ============ MONO LABEL ============ */
+.label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--red);
+  display: inline-flex; align-items: center; gap: .7rem; margin-bottom: 1.4rem;
+}
+.label::before { content: ''; width: 8px; height: 8px; border: 1px solid var(--red); transform: rotate(45deg); }
+
+/* ============ HERO ============ */
+.hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; background: var(--night); }
+.hero-media { position: absolute; inset: -12% 0; z-index: 0; will-change: transform; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; }
+.hero-media::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(16,16,18,.42) 0%, rgba(16,16,18,.12) 40%, rgba(16,16,18,.72) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 3rem 6.5rem; max-width: 1280px; margin: 0 auto;
+}
+.hero .label { color: #fff; }
+.hero .label::before { border-color: var(--red); background: var(--red); }
+.hero-title {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(2.9rem, 7.2vw, 6.4rem); line-height: 1.02;
+  color: #fff; max-width: 16ch; margin-bottom: 1.6rem;
+  letter-spacing: -.01em;
+}
+.hero-title em { font-style: italic; color: #fff; position: relative; }
+.hero-title em::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: .06em;
+  height: 2px; background: var(--red);
+}
+.hero-title .w { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.hero-title .w > span { display: inline-block; transform: translateY(110%); transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+body.loaded .hero-title .w > span { transform: translateY(0); }
+.hero-desc {
+  color: rgba(255,255,255,.82); max-width: 430px; font-size: 15px;
+  line-height: 1.85; margin-bottom: 2.6rem;
+  opacity: 0; transform: translateY(14px); transition: opacity .8s ease .5s, transform .8s ease .5s;
+}
+body.loaded .hero-desc { opacity: 1; transform: translateY(0); }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: .8rem; width: fit-content;
+  font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 400;
+  color: var(--ink); background: var(--paper); text-decoration: none;
+  padding: 1.05rem 2.1rem;
+  opacity: 0; transform: translateY(14px); transition: opacity .8s ease .7s, transform .8s ease .7s, background .25s ease, color .25s ease, gap .25s ease;
+}
+body.loaded .hero-cta { opacity: 1; transform: translateY(0); }
+.hero-cta:hover { background: var(--red); color: #fff; gap: 1.3rem; }
+.hero-cta svg { width: 15px; height: 15px; }
+.hero-meta {
+  position: absolute; z-index: 2; left: 3rem; top: 7.2rem;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em;
+  color: rgba(255,255,255,.55); text-transform: uppercase; line-height: 2;
+}
+.hero-scroll {
+  position: absolute; z-index: 2; bottom: 2.2rem; right: 3rem;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .2em;
+  color: rgba(255,255,255,.55); text-transform: uppercase;
+  display: flex; align-items: center; gap: .8rem;
+}
+.hero-scroll::after {
+  content: ''; width: 1px; height: 38px; background: rgba(255,255,255,.4);
+  animation: drop 2.2s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes drop { 0% { transform: scaleY(0); } 45% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+@media (max-width: 768px) {
+  .hero-content { padding: 0 1.4rem 5rem; }
+  .hero-meta { left: 1.4rem; top: 5.4rem; }
+  .hero-scroll { right: 1.4rem; bottom: 1.6rem; }
+}
+
+/* ============ SECTION SHELL ============ */
+section { position: relative; }
+.shell { max-width: 1280px; margin: 0 auto; padding: 7rem 3rem; }
+@media (max-width: 768px) { .shell { padding: 4.5rem 1.4rem; } }
+.section-title {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(2.1rem, 4vw, 3.4rem); line-height: 1.1; letter-spacing: -.01em;
+  margin-bottom: 1.4rem;
+}
+
+/* scroll reveal */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: .1s; }
+.reveal-d2 { transition-delay: .2s; }
+.reveal-d3 { transition-delay: .3s; }
+
+/* ============ APIE ============ */
+.about-grid {
+  display: grid; grid-template-columns: minmax(0,5fr) minmax(0,6fr);
+  gap: 5rem; align-items: center;
+}
+.about-visual { position: relative; }
+.about-visual img { width: 100%; aspect-ratio: 4/5; object-fit: cover; background: var(--night-soft); }
+.about-visual::before {
+  content: ''; position: absolute; top: -1.2rem; left: -1.2rem; right: 1.2rem; bottom: 1.2rem;
+  border: 1px solid var(--line); z-index: -1;
+}
+.about-coords {
+  position: absolute; bottom: 1rem; left: 1rem;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em;
+  color: #fff; background: rgba(16,16,18,.62); padding: .35rem .7rem;
+  backdrop-filter: blur(4px);
+}
+.about-text { color: var(--grey); font-size: 15.5px; line-height: 1.9; max-width: 52ch; margin-bottom: 1.2rem; }
+.stats { display: flex; gap: 3.2rem; border-top: 1px solid var(--line); margin-top: 2.6rem; padding-top: 2.2rem; flex-wrap: wrap; }
+.stat-num {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: 2.7rem; line-height: 1;
+}
+.stat-num span { color: var(--red); }
+.stat-label {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--grey); margin-top: .5rem;
+}
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .about-visual { margin-left: 1.2rem; margin-top: 1.2rem; }
+}
+
+/* ============ GALERIJA ============ */
+#galerija { background: #F2F1EC; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.gallery-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; gap: 2rem; flex-wrap: wrap; }
+.gallery-head .section-title { margin-bottom: 0; }
+.gallery-hint { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--grey); }
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 190px; gap: 14px;
+}
+.g-item { position: relative; overflow: hidden; background: var(--night-soft); cursor: pointer; }
+.g-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+.g-item:nth-child(2) { grid-column: span 5; grid-row: span 1; }
+.g-item:nth-child(3) { grid-column: span 5; grid-row: span 1; }
+.g-item:nth-child(4) { grid-column: span 4; grid-row: span 2; }
+.g-item:nth-child(5) { grid-column: span 4; grid-row: span 2; }
+.g-item:nth-child(6) { grid-column: span 4; grid-row: span 2; }
+.g-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .4s ease;
+}
+.g-item:hover img { transform: scale(1.055); }
+.g-item::after {
+  content: attr(data-n); position: absolute; bottom: .9rem; left: 1rem;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em;
+  color: #fff; opacity: 0; transform: translateY(6px);
+  transition: opacity .35s ease, transform .35s ease; z-index: 2;
+}
+.g-item::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, rgba(0,0,0,.55), transparent 45%);
+  opacity: 0; transition: opacity .35s ease;
+}
+.g-item:hover::after, .g-item:hover::before { opacity: 1; transform: translateY(0); }
+@media (max-width: 768px) {
+  .gallery-grid { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 150px; gap: 10px; }
+  .g-item:nth-child(1) { grid-column: span 6; grid-row: span 2; }
+  .g-item:nth-child(2), .g-item:nth-child(3) { grid-column: span 3; grid-row: span 1; }
+  .g-item:nth-child(4), .g-item:nth-child(5), .g-item:nth-child(6) { grid-column: span 6; grid-row: span 2; }
+}
+
+/* lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200; background: rgba(12,12,14,.94);
+  display: flex; align-items: center; justify-content: center; padding: 4vmin;
+  opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .3s ease;
+}
+.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.lightbox-close {
+  position: absolute; top: 1.4rem; right: 1.8rem; background: none; border: none;
+  color: #fff; font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em;
+  text-transform: uppercase; padding: .6rem;
+}
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: none; border: 1px solid rgba(255,255,255,.3); color: #fff;
+  width: 46px; height: 46px; border-radius: 50%;
+  font-size: 18px; line-height: 1; transition: border-color .25s ease, background .25s ease;
+}
+.lightbox-nav:hover { border-color: var(--red); background: var(--red); }
+.lightbox-prev { left: 1.4rem; }
+.lightbox-next { right: 1.4rem; }
+.lightbox-count {
+  position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: rgba(255,255,255,.6);
+}
+@media (max-width: 768px) { .lightbox-nav { display: none; } }
+
+/* ============ VIDEO ============ */
+.video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
+.video-item {
+  position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+  background: var(--night-soft);
+}
+.video-item iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+@media (max-width: 768px) { .video-grid { grid-template-columns: 1fr; gap: 1.1rem; } }
+
+/* ============ PASLAUGOS ============ */
+#paslaugos { border-top: 1px solid var(--line); }
+.service-row {
+  display: grid; grid-template-columns: minmax(0,5fr) minmax(0,6fr) auto;
+  gap: 2.5rem; align-items: center;
+  padding: 2.6rem 0; border-bottom: 1px solid var(--line);
+  transition: padding-left .3s ease;
+}
+.service-row:first-of-type { border-top: 1px solid var(--line); margin-top: 2.4rem; }
+.service-row:hover { padding-left: 1rem; }
+.service-name {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem); line-height: 1.15;
+}
+.service-desc { color: var(--grey); font-size: 15px; line-height: 1.8; max-width: 46ch; }
+.service-arrow {
+  width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .3s ease, background .3s ease, transform .3s ease;
+}
+.service-arrow svg { width: 16px; height: 16px; stroke: var(--ink); transition: stroke .3s ease; }
+.service-row:hover .service-arrow { border-color: var(--red); background: var(--red); transform: rotate(45deg); }
+.service-row:hover .service-arrow svg { stroke: #fff; }
+.service-row a { text-decoration: none; display: contents; }
+@media (max-width: 768px) {
+  .service-row { grid-template-columns: 1fr; gap: .8rem; padding: 2rem 0; }
+  .service-arrow { display: none; }
+}
+
+/* ============ KONTAKTAI ============ */
+#kontaktai { background: var(--night); color: #F2F1EC; }
+#kontaktai .label { color: var(--red); }
+.contact-grid { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,6fr); gap: 5rem; }
+.contact-desc { color: rgba(242,241,236,.66); font-size: 15.5px; line-height: 1.9; max-width: 44ch; margin-bottom: 2.6rem; }
+.contact-lines { display: flex; flex-direction: column; gap: 1.4rem; }
+.contact-line { display: flex; flex-direction: column; gap: .2rem; }
+.contact-line .k {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: rgba(242,241,236,.45);
+}
+.contact-line .v { font-size: 17px; font-weight: 300; }
+.contact-line a { text-decoration: none; border-bottom: 1px solid rgba(242,241,236,.25); width: fit-content; transition: border-color .25s ease, color .25s ease; }
+.contact-line a:hover { color: var(--red); border-color: var(--red); }
+
+.form-field { margin-bottom: 1.6rem; }
+.form-field label {
+  display: block; font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(242,241,236,.5); margin-bottom: .55rem;
+}
+.form-field input, .form-field select, .form-field textarea {
+  width: 100%; background: transparent; border: none;
+  border-bottom: 1px solid rgba(242,241,236,.25);
+  color: #F2F1EC; font-family: var(--font-body); font-weight: 300;
+  font-size: 16px; padding: .65rem 0; border-radius: 0;
+  transition: border-color .25s ease;
+}
+.form-field select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23F2F1EC' stroke-width='1.4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .2rem center; }
+.form-field select option { background: var(--night-soft); color: #F2F1EC; }
+.form-field textarea { resize: vertical; min-height: 110px; }
+.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(242,241,236,.3); }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  outline: none; border-color: var(--red);
+}
+.form-field input:focus-visible, .form-field select:focus-visible, .form-field textarea:focus-visible { outline: none; }
+.form-submit {
+  display: inline-flex; align-items: center; gap: .8rem;
+  background: var(--red); color: #fff; border: none;
+  font-family: var(--font-body); font-size: 12px; font-weight: 400;
+  letter-spacing: .16em; text-transform: uppercase;
+  padding: 1.05rem 2.3rem; margin-top: .6rem;
+  transition: background .25s ease, gap .25s ease;
+}
+.form-submit:hover { background: #B82222; gap: 1.3rem; }
+.form-submit:disabled { opacity: .55; }
+.form-submit svg { width: 15px; height: 15px; }
+.form-status {
+  margin-top: 1.2rem; font-size: 14px; display: none; padding: .8rem 1rem;
+  border-left: 2px solid;
+}
+.form-status.ok { display: block; color: #9BD89B; border-color: #9BD89B; background: rgba(155,216,155,.07); }
+.form-status.err { display: block; color: #F0A0A0; border-color: var(--red); background: rgba(212,43,43,.08); }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 3.4rem; } }
+
+/* ============ FOOTER ============ */
+footer { background: var(--night); border-top: 1px solid rgba(242,241,236,.1); }
+.footer-inner {
+  max-width: 1280px; margin: 0 auto; padding: 2.2rem 3rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; flex-wrap: wrap;
+}
+.footer-nav { display: flex; gap: 1.8rem; list-style: none; flex-wrap: wrap; }
+.footer-nav a {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em;
+  text-transform: uppercase; color: rgba(242,241,236,.5); text-decoration: none;
+  transition: color .25s ease;
+}
+.footer-nav a:hover { color: var(--red); }
+.footer-copy { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: rgba(242,241,236,.4); text-transform: uppercase; }
+@media (max-width: 768px) { .footer-inner { padding: 2rem 1.4rem; flex-direction: column; align-items: flex-start; } }
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal, .hero-desc, .hero-cta, .hero-title .w > span { opacity: 1 !important; transform: none !important; }
+}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
 
-<nav id="nav" aria-label="Pagrindinis meniu">
-  <div class="nav-logo">
-    <a href="#" style="display:block;line-height:0;"><img src="data:image/jpeg;base64,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AYCzP935n8/r+HiNt/Xz+H+X18RbjIxKAgAgICHUB/AgP8hD/oOAFKd9VyrN59iFeAS2aTUAH0OwRKdFTvHom5MUhgFByqcQL4ykN5vycQL0ERlQZ7efoXof17vr8Il7b+Xr7xLeo9RpVVFKwWFMrmyLplMikr/SFiUzFACkKJuvc87egHP/AKAfsJ+4BEtKlb+Ren5/X18vUp28z9fcXw/j+X4+k95QJAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAagyotZjrI8tTOOIjLvUvGqoUQBEph6+VZJAAAqa64D0WUAR7gDqAFETCPu57bb+Qp4lvv7/8AAbfngqDADUE6LWU7OpbyxxPmlEQSFYwgZIpw6B7pNEQEpHQkDxisA/7v5AoHADB7ue22/l9fl9e4U8S33942/PBUGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADABgAwAYAMAGADAD//2Q==" alt="Dangaus Kadras"></a>
-  </div>
-  <button class="hamburger" id="hamburger" aria-label="Meniu" aria-expanded="false"><span></span><span></span><span></span></button>
-</nav>
-<ul class="nav-links">
-  <li><a href="#apie">Apie</a></li>
-  <li><a href="#galerija">Galerija</a></li>
-  <li><a href="#video">Video</a></li>
-  <li><a href="#paslaugos">Paslaugos</a></li>
-  <li><a href="#kontaktai">Kontaktai</a></li>
-</ul>
-
-<section class="hero">
-  <div class="hero-text">
-    <p class="hero-eyebrow">NT oro fotografija</p>
-    <h1 class="hero-title">
-      Nekilnojamas<br>
-      turtas iš <em>oro</em><br>
-      perspektyvos
-    </h1>
-    <p class="hero-desc">
-      Profesionali dronų fotografija nekilnojamajam turtui. 
-      Pateikiu objektus pačioje geriausioje šviesoje — 
-      iš paukščio skrydžio.
-    </p>
-    <a href="#galerija" class="hero-cta">
-      Peržiūrėti darbus
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-  </div>
-  <div class="hero-visual">
-    <picture>
-      <source srcset="hero.webp" type="image/webp">
-      <img src="hero.jpg" alt="NT oro fotografija" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" fetchpriority="high">
-    </picture>
-    <div class="hero-counter">Dangaus Kadras © <span id="year2"></span></div>
-  </div>
-</section>
-
-<section class="about" id="apie">
-  <div class="about-visual">
-    <picture>
-      <source srcset="apie.webp" type="image/webp">
-      <img src="apie.jpg" alt="Oro fotografija" style="width:100%;height:100%;object-fit:cover;">
-    </picture>
-    <span class="about-label">Lietuva</span>
-  </div>
-  <div class="about-content reveal">
-    <p class="section-label">Apie mane</p>
-    <h2 class="section-title">
-      NT fotografas<br>
-      iš oro
-    </h2>
-    <p class="about-text">
-      Esu profesionalus dronų pilotas ir fotografas, 
-      specializuojantis nekilnojamojo turto fotografijoje. 
-      Dirbu individualiai — nuo užsakymo priėmimo iki 
-      galutinio rezultato pats.
-    </p>
-    <p class="about-text">
-      Turiu visus būtinus leidimus skrydžiams Lietuvoje 
-      ir naudoju aukščiausios kokybės įrangą, kad jūsų 
-      NT objektas atrodytų reprezentatyviai.
-    </p>
-    <div class="stats">
-      <div>
-        <div class="stat-num">200<span>+</span></div>
-        <div class="stat-label">NT objektų</div>
-      </div>
-      <div>
-        <div class="stat-num">5<span>+</span></div>
-        <div class="stat-label">Metų patirties</div>
-      </div>
-      <div>
-        <div class="stat-num">24<span>h</span></div>
-        <div class="stat-label">Nuotraukų pristatymas</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="gallery" id="galerija">
-  <div class="gallery-header">
-    <div>
-      <p class="section-label">Darbai</p>
-      <h2 class="section-title">Galerija</h2>
-    </div>
-  </div>
-  <div class="gallery-grid reveal">
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <picture><source srcset="foto1.webp" type="image/webp"><img src="foto1.jpg" alt="Namas iš oro – NT oro fotografija Lietuvoje" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <picture><source srcset="foto2.webp" type="image/webp"><img src="foto2.jpg" alt="NT sklypas iš drono – aerofotografija" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <picture><source srcset="foto3.webp" type="image/webp"><img src="foto3.jpg" alt="Pastatas iš oro – NT oro fotografija" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <picture><source srcset="foto4.webp" type="image/webp"><img src="foto4.jpg" alt="Nekilnojamojo turto oro nuotrauka – dronas" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <picture><source srcset="foto5.webp" type="image/webp"><img src="foto5.jpg" alt="Dronų fotografija – NT objektas Lietuvoje" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <picture><source srcset="foto6.webp" type="image/webp"><img src="foto6.jpg" alt="Kotedžo oro fotografija – NT Lietuva" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;"></picture>
-    </div>
-  </div>
-</section>
-
-<section class="video-section" id="video">
-  <div class="video-section-inner">
-    <div class="video-section-header reveal">
-      <p class="section-label">Vaizdo darbai</p>
-      <h2 class="section-title">Video</h2>
-    </div>
-    <div class="video-grid reveal">
-      <div class="video-item">
-        <iframe src="https://www.youtube-nocookie.com/embed/eNBmfDQcdns" title="Video 1" allowfullscreen loading="lazy"></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube-nocookie.com/embed/FXkc93YkpyU" title="Video 2" allowfullscreen loading="lazy"></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube-nocookie.com/embed/wU6g1nL_RpY" title="Video 3" allowfullscreen loading="lazy"></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube-nocookie.com/embed/bXZIkGy7W78" title="Video 4" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="services" id="paslaugos">
-  <div class="services-inner">
-    <div class="services-header reveal">
-      <p class="section-label">Ką siūlau</p>
-      <h2 class="section-title">Paslaugos</h2>
-    </div>
-    <div class="services-grid reveal">
-      <div class="service-card">
-        <div class="service-num">01</div>
-        <h3 class="service-title">Oro fotografija</h3>
-        <p class="service-desc">Aukštos raiškos nuotraukos iš oro — pastatai, sklypai, kvartalai. Idealiai tinka pardavimo skelbimams ir pristatymams. Atiduodu tą pačią dieną arba kitą rytą.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-num">02</div>
-        <h3 class="service-title">Oro video</h3>
-        <p class="service-desc">4K vaizdo medžiaga su sklandžiais oro kadrais. Sukuriu trumpą prezentacinį klipą, kuris pritraukia pirkėjų dėmesį ir puikiai tinka socialiniams tinklams bei NT portalams.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-num">03</div>
-        <h3 class="service-title">Foto + Video paketas</h3>
-        <p class="service-desc">Kompleksinis paslaugos paketas — nuotraukos ir video iš vieno vizito. Sutaupote laiką, gausite išsamią vizualinę medžiagą visam NT pristatymui.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="contact" id="kontaktai">
-  <div class="contact-inner">
-    <div class="contact-text reveal">
-      <p class="section-label">Susisiekite</p>
-      <h2 class="contact-title">
-        Aptarkime<br>
-        jūsų <em>objektą</em>
-      </h2>
-      <p style="font-size:14px; color:rgba(255,255,255,0.45); font-weight:300; line-height:1.8; max-width:360px;">
-        Parašykite man apie savo NT objektą — 
-        atsakysiu greitai ir pasiūlysiu 
-        patogų laiką fotografavimui.
-      </p>
-      <div class="contact-info">
-        <a href="mailto:info@dangauskadras.lt" class="contact-info-item">
-          <span class="contact-info-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          </span>
-          info@dangauskadras.lt
-        </a>
-        <span class="contact-info-item">
-          <span class="contact-info-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </span>
-          Lietuva
-        </span>
-      </div>
-    </div>
-    <form class="contact-form reveal" action="https://formspree.io/f/mdabjoje" method="POST">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="vardas">Vardas</label>
-          <input type="text" id="vardas" name="vardas" placeholder="Jūsų vardas" required>
-        </div>
-        <div class="form-field">
-          <label for="email">El. paštas</label>
-          <input type="email" id="email" name="email" placeholder="el@pastas.lt" required>
-        </div>
-      </div>
-      <div class="form-field">
-        <label for="paslauga">Paslauga</label>
-        <select id="paslauga" name="paslauga">
-          <option value="">Pasirinkite paslaugą</option>
-          <option>Oro fotografija</option>
-          <option>Oro video</option>
-          <option>Foto + Video paketas</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label for="zinute">Apie objektą</label>
-        <textarea id="zinute" name="zinute" placeholder="Objekto adresas, tipas (namas, butas, sklypas), papildoma informacija..."></textarea>
-      </div>
-      <button type="submit" class="submit-btn">
-        Siųsti žinutę
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-      <input type="hidden" name="_subject" value="Naujas užsakymas – Dangaus Kadras">
-      <input type="hidden" name="_language" value="lt">
-      <p id="form-status" style="display:none; margin-top:0.75rem; font-size:13px; letter-spacing:0.05em;"></p>
-    </form>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">
-    <img src="data:image/png;base64,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" alt="Dangaus Kadras">
-  </div>
-  <p class="footer-copy">© <span id="year"></span> Dangaus Kadras. Visos teisės saugomos.</p>
-</footer>
-
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">Uždaryti ✕</button>
-  <img id="lightbox-img" src="" alt="" style="max-width:90vw; max-height:85vh; object-fit:contain; display:block;">
+<!-- Telemetrija: aukštis mažėja skrolinant — dronas leidžiasi -->
+<div class="telemetry" aria-hidden="true">
+  <div class="alt-readout">ALT <span id="altValue">120</span> M</div>
+  <div class="alt-track"><div class="alt-marker" id="altMarker"></div></div>
 </div>
 
+<nav id="nav">
+  <a href="#" class="nav-logo" aria-label="Dangaus Kadras – į viršų">
+    <img src="/logo.png" alt="Dangaus Kadras">
+  </a>
+  <button class="nav-burger" id="navBurger" aria-label="Meniu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#apie">Apie</a></li>
+    <li><a href="#galerija">Galerija</a></li>
+    <li><a href="#video">Video</a></li>
+    <li><a href="#paslaugos">Paslaugos</a></li>
+    <li><a href="#kontaktai">Kontaktai</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-media" id="heroMedia">
+    <img src="hero.jpg" alt="NT objektas iš oro perspektyvos">
+  </div>
+  <div class="hero-meta">
+    LT / LIETUVA<br>
+    SEZONAS <span class="js-year">2025</span>
+  </div>
+  <div class="hero-content">
+    <span class="label">NT oro fotografija</span>
+    <h1 class="hero-title" id="heroTitle">Nekilnojamas turtas <em>iš oro</em> perspektyvos</h1>
+    <p class="hero-desc">Profesionali dronų fotografija nekilnojamajam turtui. Pateikiu objektus pačioje geriausioje šviesoje — iš paukščio skrydžio.</p>
+    <a href="#galerija" class="hero-cta">
+      Peržiūrėti darbus
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+  <div class="hero-scroll">Žemyn</div>
+</header>
+
+<!-- ============ APIE ============ -->
+<section id="apie">
+  <div class="shell">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <img src="apie.jpg" alt="Dronų pilotas darbe">
+        <span class="about-coords">55.1694° N, 23.8813° E</span>
+      </div>
+      <div>
+        <span class="label reveal">Apie mane</span>
+        <h2 class="section-title reveal reveal-d1">NT fotografas iš oro</h2>
+        <p class="about-text reveal reveal-d2">Esu profesionalus dronų pilotas ir fotografas, specializuojantis nekilnojamojo turto fotografijoje. Dirbu individualiai — nuo užsakymo priėmimo iki galutinio rezultato pats.</p>
+        <p class="about-text reveal reveal-d2">Turiu visus būtinus leidimus skrydžiams Lietuvoje ir naudoju aukščiausios kokybės įrangą, kad jūsų NT objektas atrodytų reprezentatyviai.</p>
+        <div class="stats reveal reveal-d3">
+          <div>
+            <div class="stat-num">200<span>+</span></div>
+            <div class="stat-label">NT objektų</div>
+          </div>
+          <div>
+            <div class="stat-num">5<span>+</span></div>
+            <div class="stat-label">Metų patirtis</div>
+          </div>
+          <div>
+            <div class="stat-num">24<span>h</span></div>
+            <div class="stat-label">Nuotraukų pristatymas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERIJA ============ -->
+<section id="galerija">
+  <div class="shell">
+    <div class="gallery-head">
+      <div>
+        <span class="label reveal">Darbai</span>
+        <h2 class="section-title reveal reveal-d1">Galerija</h2>
+      </div>
+      <span class="gallery-hint reveal reveal-d2">Spauskite nuotrauką</span>
+    </div>
+    <div class="gallery-grid">
+      <figure class="g-item reveal" data-n="KADRAS 01"><img src="foto1.jpg" alt="NT oro nuotrauka 1" loading="lazy"></figure>
+      <figure class="g-item reveal reveal-d1" data-n="KADRAS 02"><img src="foto2.jpg" alt="NT oro nuotrauka 2" loading="lazy"></figure>
+      <figure class="g-item reveal reveal-d2" data-n="KADRAS 03"><img src="foto3.jpg" alt="NT oro nuotrauka 3" loading="lazy"></figure>
+      <figure class="g-item reveal" data-n="KADRAS 04"><img src="foto4.jpg" alt="NT oro nuotrauka 4" loading="lazy"></figure>
+      <figure class="g-item reveal reveal-d1" data-n="KADRAS 05"><img src="foto5.jpg" alt="NT oro nuotrauka 5" loading="lazy"></figure>
+      <figure class="g-item reveal reveal-d2" data-n="KADRAS 06"><img src="foto6.jpg" alt="NT oro nuotrauka 6" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIDEO ============ -->
+<section id="video">
+  <div class="shell">
+    <span class="label reveal">Darbai</span>
+    <h2 class="section-title reveal reveal-d1" style="margin-bottom:3rem;">Video</h2>
+    <div class="video-grid">
+      <div class="video-item reveal"><iframe src="https://www.youtube.com/embed/eNBmfDQcdns" title="NT oro video 1" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-item reveal reveal-d1"><iframe src="https://www.youtube.com/embed/FXkc93YkpyU" title="NT oro video 2" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-item reveal reveal-d2"><iframe src="https://www.youtube.com/embed/wU6g1nL_RpY" title="NT oro video 3" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-item reveal reveal-d3"><iframe src="https://www.youtube.com/embed/bXZIkGy7W78" title="NT oro video 4" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PASLAUGOS ============ -->
+<section id="paslaugos">
+  <div class="shell">
+    <span class="label reveal">Ką siūlau</span>
+    <h2 class="section-title reveal reveal-d1">Paslaugos</h2>
+
+    <div class="service-row reveal">
+      <a href="#kontaktai" aria-label="Užsakyti oro fotografiją">
+        <h3 class="service-name">Oro fotografija</h3>
+        <p class="service-desc">Aukštos raiškos nuotraukos iš oro — pastatai, sklypai, kvartalai. Objektas parodomas visame kontekste.</p>
+        <span class="service-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+      </a>
+    </div>
+    <div class="service-row reveal reveal-d1">
+      <a href="#kontaktai" aria-label="Užsakyti oro video">
+        <h3 class="service-name">Oro video</h3>
+        <p class="service-desc">4K vaizdo medžiaga su sklandžiais oro kadrais — gyvas objekto pristatymas, kuris sustabdo pirkėją.</p>
+        <span class="service-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+      </a>
+    </div>
+    <div class="service-row reveal reveal-d2">
+      <a href="#kontaktai" aria-label="Užsakyti foto ir video paketą">
+        <h3 class="service-name">Foto + Video paketas</h3>
+        <p class="service-desc">Kompleksinis paketas iš vieno vizito — nuotraukos ir video vienoje sesijoje, geriausia kaina.</p>
+        <span class="service-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KONTAKTAI ============ -->
+<section id="kontaktai">
+  <div class="shell">
+    <div class="contact-grid">
+      <div>
+        <span class="label reveal">Susisiekite</span>
+        <h2 class="section-title reveal reveal-d1">Aptarkime jūsų objektą</h2>
+        <p class="contact-desc reveal reveal-d2">Parašykite man apie savo NT objektą — atsakysiu greitai ir pasiūlysiu patogų laiką fotografavimui.</p>
+        <div class="contact-lines reveal reveal-d3">
+          <div class="contact-line">
+            <span class="k">El. paštas</span>
+            <span class="v"><a href="mailto:info@dangauskadras.lt">info@dangauskadras.lt</a></span>
+          </div>
+          <div class="contact-line">
+            <span class="k">Vieta</span>
+            <span class="v">Lietuva</span>
+          </div>
+        </div>
+      </div>
+      <form id="contactForm" action="https://formspree.io/f/mdabjoje" method="POST" class="reveal reveal-d2" novalidate>
+        <input type="hidden" name="_subject" value="Naujas užsakymas – Dangaus Kadras">
+        <input type="hidden" name="_language" value="lt">
+        <div class="form-field">
+          <label for="f-vardas">Vardas</label>
+          <input type="text" id="f-vardas" name="vardas" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="f-email">El. paštas</label>
+          <input type="email" id="f-email" name="email" required autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="f-paslauga">Paslauga</label>
+          <select id="f-paslauga" name="paslauga" required>
+            <option value="Oro fotografija">Oro fotografija</option>
+            <option value="Oro video">Oro video</option>
+            <option value="Foto + Video paketas">Foto + Video paketas</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="f-zinute">Apie objektą</label>
+          <textarea id="f-zinute" name="zinute" placeholder="Objekto adresas, tipas (namas, butas, sklypas), papildoma informacija..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="formSubmit">
+          Siųsti žinutę
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-inner">
+    <ul class="footer-nav">
+      <li><a href="#apie">Apie</a></li>
+      <li><a href="#galerija">Galerija</a></li>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#paslaugos">Paslaugos</a></li>
+      <li><a href="#kontaktai">Kontaktai</a></li>
+    </ul>
+    <span class="footer-copy">© <span class="js-year">2025</span> Dangaus Kadras. Visos teisės saugomos.</span>
+  </div>
+</footer>
+
 <script>
-  const yr = new Date().getFullYear();
-  document.getElementById('year').textContent = yr;
-  document.getElementById('year2').textContent = yr;
+(function () {
+  'use strict';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
 
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 80);
-  });
+  /* ---- Dinaminiai metai (hero + footer) ---- */
+  var y = new Date().getFullYear();
+  document.querySelectorAll('.js-year').forEach(function (el) { el.textContent = y; });
 
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
-
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.15 });
-  reveals.forEach(r => observer.observe(r));
-
-  function openLightbox(el) {
-    const img = el.querySelector('img');
-    if (img) {
-      document.getElementById('lightbox-img').src = img.currentSrc || img.src;
-      document.getElementById('lightbox-img').alt = img.alt;
-    }
-    document.getElementById('lightbox').classList.add('open');
-  }
-  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
-  document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-  const hamburger = document.getElementById('hamburger');
-  const navMenu = document.querySelector('.nav-links');
-  hamburger.addEventListener('click', () => {
-    const isOpen = navMenu.classList.toggle('open');
-    hamburger.classList.toggle('open', isOpen);
-    hamburger.setAttribute('aria-expanded', String(isOpen));
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-  navMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      navMenu.classList.remove('open');
-      hamburger.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
-
-
-
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 75, behavior: 'smooth' });
-    });
-  });
-
-  const contactForm = document.querySelector('.contact-form');
-  const formStatus = document.getElementById('form-status');
-  contactForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const btn = contactForm.querySelector('.submit-btn');
-    btn.disabled = true;
-    btn.textContent = 'Siunčiama...';
-    try {
-      const res = await fetch(contactForm.action, {
-        method: 'POST',
-        body: new FormData(contactForm),
-        headers: { 'Accept': 'application/json' }
-      });
-      if (res.ok) {
-        contactForm.reset();
-        formStatus.style.display = 'block';
-        formStatus.style.color = '#4caf50';
-        formStatus.textContent = 'Žinutė išsiųsta! Susisieksiu su jumis greitai.';
-        btn.textContent = 'Išsiųsta ✓';
-      } else {
-        throw new Error();
+  /* ---- Hero title split reveal ---- */
+  var title = document.getElementById('heroTitle');
+  if (title && !reduceMotion) {
+    var nodes = Array.prototype.slice.call(title.childNodes);
+    title.textContent = '';
+    nodes.forEach(function (node) {
+      if (node.nodeType === 3) {
+        node.textContent.split(/\s+/).filter(Boolean).forEach(function (word) {
+          var w = document.createElement('span'); w.className = 'w';
+          var inner = document.createElement('span'); inner.textContent = word;
+          w.appendChild(inner);
+          title.appendChild(w);
+          title.appendChild(document.createTextNode(' '));
+        });
+      } else if (node.nodeType === 1) {
+        var w = document.createElement('span'); w.className = 'w';
+        var inner = document.createElement('span');
+        inner.appendChild(node.cloneNode(true));
+        w.appendChild(inner);
+        title.appendChild(w);
+        title.appendChild(document.createTextNode(' '));
       }
-    } catch {
-      formStatus.style.display = 'block';
-      formStatus.style.color = '#e53935';
-      formStatus.textContent = 'Klaida siunčiant. Bandykite dar kartą arba rašykite tiesiogiai el. paštu.';
-      btn.disabled = false;
-      btn.innerHTML = 'Siųsti žinutę <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-    }
+    });
+    // pakopinis vėlavimas kiekvienam žodžiui
+    title.querySelectorAll('.w > span').forEach(function (s, i) {
+      s.style.transitionDelay = (0.08 * i + 0.1) + 's';
+    });
+  }
+  window.addEventListener('load', function () { document.body.classList.add('loaded'); });
+  // fallback jei load jau įvyko
+  if (document.readyState === 'complete') document.body.classList.add('loaded');
+
+  /* ---- Nav scroll shrink ---- */
+  var nav = document.getElementById('nav');
+  function onScrollNav() { nav.classList.toggle('scrolled', window.scrollY > 40); }
+  window.addEventListener('scroll', onScrollNav, { passive: true });
+  onScrollNav();
+
+  /* ---- Mobile menu ---- */
+  var burger = document.getElementById('navBurger');
+  var links = document.getElementById('navLinks');
+  burger.addEventListener('click', function () {
+    var open = links.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
   });
+  links.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      links.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ---- Logo → į viršų ---- */
+  document.querySelector('.nav-logo').addEventListener('click', function (e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  /* ---- Scroll reveal (IntersectionObserver) ---- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  /* ---- Parallax hero + telemetrijos aukštis ---- */
+  var heroMedia = document.getElementById('heroMedia');
+  var altValue = document.getElementById('altValue');
+  var altMarker = document.getElementById('altMarker');
+  var ticking = false;
+  function onScrollFx() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var sY = window.scrollY;
+      if (!reduceMotion && heroMedia && sY < window.innerHeight * 1.2) {
+        heroMedia.style.transform = 'translateY(' + (sY * 0.28) + 'px)';
+      }
+      if (altValue) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var p = max > 0 ? Math.min(sY / max, 1) : 0;
+        altValue.textContent = Math.round(120 * (1 - p)); // 120 m viršuje → 0 m apačioje
+        altMarker.style.top = (p * 101) + 'px';
+      }
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScrollFx, { passive: true });
+  onScrollFx();
+
+  /* ---- Custom cursor (tik desktop) ---- */
+  if (finePointer && !reduceMotion) {
+    document.body.classList.add('has-cursor');
+    var dot = document.querySelector('.cursor-dot');
+    var ring = document.querySelector('.cursor-ring');
+    var rx = 0, ry = 0, tx = 0, ty = 0;
+    document.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      dot.style.left = tx + 'px'; dot.style.top = ty + 'px';
+    });
+    (function loop() {
+      rx += (tx - rx) * 0.16; ry += (ty - ry) * 0.16;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button, .g-item, select, input, textarea, label').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { ring.classList.add('is-hover'); });
+      el.addEventListener('mouseleave', function () { ring.classList.remove('is-hover'); });
+    });
+  }
+
+  /* ---- Lightbox ---- */
+  var items = Array.prototype.slice.call(document.querySelectorAll('.g-item img'));
+  var lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML =
+    '<button class="lightbox-close" aria-label="Uždaryti">Uždaryti ✕</button>' +
+    '<button class="lightbox-nav lightbox-prev" aria-label="Ankstesnė">←</button>' +
+    '<img alt="">' +
+    '<button class="lightbox-nav lightbox-next" aria-label="Kita">→</button>' +
+    '<span class="lightbox-count"></span>';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector('img');
+  var lbCount = lb.querySelector('.lightbox-count');
+  var current = 0;
+
+  function showLb(i) {
+    current = (i + items.length) % items.length;
+    lbImg.src = items[current].src;
+    lbImg.alt = items[current].alt;
+    lbCount.textContent = (current + 1) + ' / ' + items.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  items.forEach(function (img, i) {
+    img.parentElement.addEventListener('click', function () { showLb(i); });
+  });
+  lb.querySelector('.lightbox-close').addEventListener('click', closeLb);
+  lb.querySelector('.lightbox-prev').addEventListener('click', function (e) { e.stopPropagation(); showLb(current - 1); });
+  lb.querySelector('.lightbox-next').addEventListener('click', function (e) { e.stopPropagation(); showLb(current + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') showLb(current - 1);
+    if (e.key === 'ArrowRight') showLb(current + 1);
+  });
+
+  /* ---- Formspree async forma (be redirect) ---- */
+  var form = document.getElementById('contactForm');
+  var status = document.getElementById('formStatus');
+  var submitBtn = document.getElementById('formSubmit');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    status.className = 'form-status';
+    submitBtn.disabled = true;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (res) {
+      if (res.ok) {
+        status.textContent = 'Žinutė išsiųsta! Susisieksiu su jumis greitai.';
+        status.classList.add('ok');
+        form.reset();
+      } else {
+        status.textContent = 'Klaida siunčiant. Bandykite dar kartą arba rašykite tiesiogiai el. paštu.';
+        status.classList.add('err');
+      }
+    }).catch(function () {
+      status.textContent = 'Klaida siunčiant. Bandykite dar kartą arba rašykite tiesiogiai el. paštu.';
+      status.classList.add('err');
+    }).finally(function () {
+      submitBtn.disabled = false;
+    });
+  });
+})();
 </script>
 </body>
 </html>
